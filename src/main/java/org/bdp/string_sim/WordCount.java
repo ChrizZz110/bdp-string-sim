@@ -63,7 +63,7 @@ public class WordCount {
 				// group by the tuple field "0" and sum up tuple field "1"
 				.groupBy(0)
 				.sum(1)
-						//Adds a filter to filter only counts bigger than 2
+						//Adds a transformation to transformation only counts bigger than 2
 				.filter(new FilterFunction<Tuple2<String, Integer>>() {
 					@Override
 					public boolean filter(Tuple2<String, Integer> stringIntegerTuple2) throws Exception {
