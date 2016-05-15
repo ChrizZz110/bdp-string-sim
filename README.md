@@ -2,7 +2,7 @@
 The String Similarity on Flink Project from the Big Data Praktikum @ UNI Leipzig, SS2016
 
 ## Requirements
-All *.csv files are excludes from repo.
+'/src/main/resources/linklion' and '/src/main/resources/perfect' is excluded from repo.
 
 Please be sure that all necessary *.csv files are in the following directory structure:
 |-src

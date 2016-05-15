@@ -1,0 +1,144 @@
+0;lon;35.4833;double
+2;lon;13.7383;double
+3;lon;13.7333;double
+4;lon;-4.76667;double
+6;lon;14.4241;double
+7;lon;14.4208;double
+9;lon;85.4561;double
+10;lon;-105.879;double
+11;lon;-105.879;double
+12;lon;2.82493;double
+13;lon;2.82493;double
+14;lon;16.4392;double
+15;lon;16.4392;double
+16;lon;13.7667;double
+17;lon;13.7667;double
+18;lon;-113.769;double
+19;lon;-113.769;double
+20;lon;-80.6667;double
+21;lon;100.308;double
+22;lon;146.833;double
+23;lon;147.7;double
+24;lon;-121.895;double
+27;lon;-73.9928;double
+28;lon;15.0;double
+29;lon;15.2833;double
+30;lon;37.6156;double
+0;label;Petra (Jordan);string
+1;label;Petra;string
+2;label;Dresden (Germany);string
+3;label;dresden;string
+4;label;Cordoba (Spain);string
+5;label;Cordoba, Spain;string
+6;label;Prague (Czech Republic);string
+7;label;Prague;string
+8;label;Xinjiang (China);string
+9;label;xinjiang;string
+10;label;Loveland Pass (Colo);string
+11;label;Loveland Pass;string
+12;label;Girona (Spain);string
+13;label;Girona;string
+14;label;Split (Croatia);string
+15;label;Split;string
+16;label;Brioni (Croatia);string
+17;label;Brijuni;string
+18;label;Grand Canyon (Ariz);string
+19;label;Grand Canyon;string
+20;label;Cayman Islands;string
+21;label;cayman islands;string
+22;label;Great Barrier Reef (Australia);string
+23;label;Great Barrier Reef;string
+24;label;San Jose (Calif);string
+25;label;San Jose, California;string
+26;label;Avenue of the Americas (NYC);string
+27;label;Sixth Avenue (Manhattan);string
+28;label;Congo Republic;string
+29;label;Republic of the Congo;string
+30;label;Moscow (Russia);string
+7;type;city, village,...;string
+7;typeDetail;capital of a political entity;string
+13;type;city, village,...;string
+13;typeDetail;populated place;string
+15;type;city, village,...;string
+15;typeDetail;seat of a first-order administrative\
+            division;string
+17;type;mountain, hill, rock, ...;string
+17;typeDetail;islands;string
+19;type;mountain, hill, rock, ...;string
+19;typeDetail;canyon;string
+11;type;http://dbpedia.org/ontology/Location;string
+11;type;http://dbpedia.org/ontology/MountainPass;string
+11;type;http://dbpedia.org/ontology/NaturalPlace;string
+11;type;http://dbpedia.org/ontology/Place;string
+11;type;http://schema.org/Place;string
+13;typeDetail;seat of a second-order administrative division;string
+23;type;http://dbpedia.org/ontology/Location;string
+23;type;http://dbpedia.org/ontology/Place;string
+23;type;http://dbpedia.org/ontology/WorldHeritageSite;string
+23;type;http://schema.org/Place;string
+23;type;http://umbel.org/umbel/rc/Place;string
+29;type;http://dbpedia.org/ontology/Country;string
+29;type;http://dbpedia.org/ontology/Location;string
+29;type;http://dbpedia.org/ontology/Place;string
+29;type;http://dbpedia.org/ontology/PopulatedPlace;string
+29;type;http://schema.org/Country;string
+29;type;http://schema.org/Place;string
+29;type;http://umbel.org/umbel/rc/Country;string
+29;type;http://umbel.org/umbel/rc/Location_Underspecified;string
+29;type;http://umbel.org/umbel/rc/PopulatedPlace;string
+3;type;http://rdf.freebase.com/ns/location.citytown;string
+3;type;http://rdf.freebase.com/ns/location.dated_location;string
+3;type;http://rdf.freebase.com/ns/location.administrative_division;string
+3;type;http://rdf.freebase.com/ns/location.de_urban_district;string
+3;type;http://rdf.freebase.com/ns/location.statistical_region;string
+3;type;http://rdf.freebase.com/ns/location.capital_of_administrative_division;string
+3;type;http://rdf.freebase.com/ns/location.de_city;string
+3;type;http://rdf.freebase.com/ns/location.location;string
+9;type;http://rdf.freebase.com/ns/location.administrative_division;string
+9;type;http://rdf.freebase.com/ns/location.statistical_region;string
+9;type;http://rdf.freebase.com/ns/location.dated_location;string
+9;type;http://rdf.freebase.com/ns/location.cn_autonomous_region;string
+9;type;http://rdf.freebase.com/ns/location.location;string
+21;type;http://rdf.freebase.com/ns/location.statistical_region;string
+21;type;http://rdf.freebase.com/ns/location.location;string
+21;type;http://rdf.freebase.com/ns/location.dated_location;string
+21;type;http://rdf.freebase.com/ns/location.administrative_division;string
+21;type;http://rdf.freebase.com/ns/location.uk_overseas_territory;string
+21;type;http://rdf.freebase.com/ns/location.country;string
+25;type;http://dbpedia.org/ontology/City;string
+25;type;http://dbpedia.org/ontology/Location;string
+25;type;http://dbpedia.org/ontology/Place;string
+25;type;http://dbpedia.org/ontology/PopulatedPlace;string
+25;type;http://dbpedia.org/ontology/Settlement;string
+25;type;http://schema.org/City;string
+25;type;http://schema.org/Place;string
+25;type;http://umbel.org/umbel/rc/City;string
+25;type;http://umbel.org/umbel/rc/Location_Underspecified;string
+25;type;http://umbel.org/umbel/rc/PopulatedPlace;string
+25;type;http://umbel.org/umbel/rc/Village;string
+30;lat;55.7522;double
+29;lat;-1.44;double
+28;lat;-1.0;double
+27;lat;40.7429;double
+24;lat;37.3394;double
+23;lat;-18.2861;double
+22;lat;-18.0;double
+21;lat;5.35528;double
+20;lat;19.5;double
+19;lat;35.9739;double
+18;lat;35.9739;double
+17;lat;44.9167;double
+16;lat;44.9167;double
+15;lat;43.5089;double
+14;lat;43.5089;double
+13;lat;41.9831;double
+12;lat;41.9831;double
+11;lat;39.6636;double
+10;lat;39.6636;double
+9;lat;42.5692;double
+7;lat;50.088;double
+6;lat;50.0878;double
+4;lat;37.8833;double
+3;lat;51.05;double
+2;lat;51.0509;double
+0;lat;30.3167;double
