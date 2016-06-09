@@ -16,4 +16,4 @@ hs_err_pid*
 # Exclude source csv because too big for repo
 
 /src/main/resources/linklion
-/src/main/resources/perfect
+#/src/main/resources/perfect
