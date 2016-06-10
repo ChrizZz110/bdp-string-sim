@@ -5,7 +5,7 @@ import org.apache.flink.api.java.tuple.Tuple2;
 import org.apache.flink.api.java.tuple.Tuple4;
 import org.bdp.string_sim.DataModel;
 
-public class MapValue implements MapFunction<Tuple4<Integer,String,String,String>,Tuple2<Integer,String>> {
+public class MapIdValue implements MapFunction<Tuple4<Integer,String,String,String>,Tuple2<Integer,String>> {
 
     /**
      * This MapFunction class is applicable to the flink transformation map(). It maps a Tuple4 to a Tuple2 while ignoring the second and fourth element of the tuple.

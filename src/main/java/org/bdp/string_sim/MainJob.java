@@ -5,8 +5,9 @@ import org.apache.flink.api.java.ExecutionEnvironment;
 import org.apache.flink.api.java.tuple.Tuple2;
 import org.apache.flink.api.java.tuple.Tuple4;
 import org.bdp.string_sim.importer.Importer;
+import org.bdp.string_sim.preprocessing.LabelMerger;
 import org.bdp.string_sim.transformation.LabelFilter;
-import org.bdp.string_sim.transformation.MapValue;
+import org.bdp.string_sim.transformation.MapIdValue;
 
 public class MainJob {
 
@@ -26,9 +27,11 @@ public class MainJob {
         DataSet<Tuple4<Integer, String, String, String>> filteredDataSet = dataModel.getConceptAttrDataSet().filter(new LabelFilter());
 
         //Map get only the id and property value of the entity
-        DataSet<Tuple2<Integer,String>> idValueDataSet= filteredDataSet.map(new MapValue());
+        DataSet<Tuple2<Integer,String>> idValueDataSet= filteredDataSet.map(new MapIdValue());
+
+        DataSet<Tuple4<Integer, String, Integer, String>> comparisonDataset = LabelMerger.crossJoinMerge(idValueDataSet);
 
         //Fort testing: to show the result, print it.
-        idValueDataSet.print();
+        comparisonDataset.writeAsCsv("~/compareOut.csv");
     }
 }

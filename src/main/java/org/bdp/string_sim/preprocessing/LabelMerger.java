@@ -5,22 +5,21 @@ import org.apache.flink.api.java.DataSet;
 import org.apache.flink.api.java.tuple.Tuple2;
 import org.apache.flink.api.java.tuple.Tuple3;
 import org.apache.flink.api.java.tuple.Tuple4;
+import org.bdp.string_sim.transformation.MapId;
+import org.bdp.string_sim.transformation.MapIdFromIdValue;
 import org.bdp.string_sim.transformation.StrictUpperTriangularMatrixFilter;
 
 public class LabelMerger {
-    private DataSet<Tuple2<Integer,String>> conceptAttrTupleDataSet;
 
-    public LabelMerger(DataSet<Tuple2<Integer, String>> conceptAttrTupleDataSet) {
-        this.conceptAttrTupleDataSet = conceptAttrTupleDataSet;
-    }
+    public static DataSet<Tuple4<Integer,String,Integer,String>> crossJoinMerge(DataSet<Tuple2<Integer,String>> conAttrIdsDataSet) throws Exception {
 
-    public DataSet<Tuple4<Integer,String,Integer,String>> crossJoinMerge(DataSet<Integer> conAttrIdsDataSet) throws Exception {
+        DataSet<Integer> idsDataSet = conAttrIdsDataSet.map(new MapIdFromIdValue());
 
-        DataSet<Tuple2<Integer,Integer>> crossedLabels = conAttrIdsDataSet.cross(conAttrIdsDataSet);
+        DataSet<Tuple2<Integer,Integer>> crossedLabels = idsDataSet.cross(idsDataSet);
 
         crossedLabels = crossedLabels.filter(new StrictUpperTriangularMatrixFilter());
 
-        DataSet<Tuple2<Tuple2<Integer,Integer>,Tuple2<Integer,String>>> joined1 = crossedLabels.join(conceptAttrTupleDataSet).where(0).equalTo(0);
+        DataSet<Tuple2<Tuple2<Integer,Integer>,Tuple2<Integer,String>>> joined1 = crossedLabels.join(conAttrIdsDataSet).where(0).equalTo(0);
 
         DataSet<Tuple3<Integer, String, Integer>> mapped = joined1.map(new MapFunction<Tuple2<Tuple2<Integer,Integer>,Tuple2<Integer,String>>, Tuple3<Integer,String,Integer>>() {
             @Override
@@ -31,7 +30,7 @@ public class LabelMerger {
             }
         });
 
-        DataSet<Tuple2<Tuple3<Integer, String, Integer>,Tuple2<Integer,String>>> joined2 = mapped.join(conceptAttrTupleDataSet).where(2).equalTo(0);
+        DataSet<Tuple2<Tuple3<Integer, String, Integer>,Tuple2<Integer,String>>> joined2 = mapped.join(conAttrIdsDataSet).where(2).equalTo(0);
 
         DataSet<Tuple4<Integer,String,Integer,String>> result = joined2.map(new MapFunction<Tuple2<Tuple3<Integer,String,Integer>,Tuple2<Integer,String>>, Tuple4<Integer,String,Integer,String>>() {
             @Override
@@ -47,8 +46,6 @@ public class LabelMerger {
                 );
             }
         });
-
-        result.print();
 
         return result;
     }
