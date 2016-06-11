@@ -9,27 +9,18 @@ import org.apache.flink.api.java.tuple.Tuple4;
 import java.io.File;
 
 public class Importer {
-
-    public static final String CSV_TYPE_LINKLION = "linklion";
-    public static final String CSV_TYPE_PERFECT = "perfect";
-
     public Importer(){
 
     }
 
     /**
      * Imports the concept.csv from the given directory (type).
-     * @param type 'perfect' or 'linklion' - choose wisely
+     * @param pathToConceptCsv path to concept.csv
      * @param env the flink execution enviroment
      * @return DataSet<Tuple3> the csv representation as flink dataset
      */
-    public DataSet<Tuple3<Integer,String,String>> getConceptDataSetFromCsv(String type, ExecutionEnvironment env){
-        if(!type.equals(CSV_TYPE_LINKLION) && !type.equals(CSV_TYPE_PERFECT)){
-            return null;
-        }
-        ClassLoader classLoader = getClass().getClassLoader();
-        File conceptFile = new File(classLoader.getResource(type + "/concept.csv").getFile());
-
+    public DataSet<Tuple3<Integer,String,String>> getConceptDataSetFromCsv(String pathToConceptCsv, ExecutionEnvironment env){
+        File conceptFile = new File(pathToConceptCsv);
         //Get concept.csv
         return env.readCsvFile(conceptFile.toString())
                 .includeFields("111")
@@ -40,17 +31,12 @@ public class Importer {
 
     /**
      * Imports the concept_attributes.csv from the given directory (type).
-     * @param type 'perfect' or 'linklion' - choose wisely
+     * @param pathToConceptAttrCsv path to concept_attributes.csv
      * @param env the flink execution enviroment
      * @return DataSet<Tuple4> the csv representation as flink dataset
      */
-    public DataSet<Tuple4<Integer,String,String,String>> getConceptAttrDataSetFromCsv(String type, ExecutionEnvironment env){
-        if(!type.equals(CSV_TYPE_LINKLION) && !type.equals(CSV_TYPE_PERFECT)){
-            return null;
-        }
-
-        ClassLoader classLoader = getClass().getClassLoader();
-        File conceptAttrFile = new File(classLoader.getResource(type + "/concept_attributes.csv").getFile());
+    public DataSet<Tuple4<Integer,String,String,String>> getConceptAttrDataSetFromCsv(String pathToConceptAttrCsv, ExecutionEnvironment env){
+        File conceptAttrFile = new File(pathToConceptAttrCsv);
 
         //Get concept_attributes.csv
         return env.readCsvFile(conceptAttrFile.toString())
@@ -62,17 +48,12 @@ public class Importer {
 
     /**
      * Imports the linksWithIDs.csv from the given directory (type).
-     * @param type 'perfect' or 'linklion' - choose wisely
+     * @param pathTolinksWithIDsCsv path to linksWithIDs.csv
      * @param env the flink execution enviroment
      * @return DataSet<Tuple2> the csv representation as flink dataset
      */
-    public DataSet<Tuple2<Integer,Integer>> getLinksWithIDsDataSetFromCsv(String type, ExecutionEnvironment env){
-        if(!type.equals(CSV_TYPE_LINKLION) && !type.equals(CSV_TYPE_PERFECT)){
-            return null;
-        }
-
-        ClassLoader classLoader = getClass().getClassLoader();
-        File linksWithIDsFile = new File(classLoader.getResource(type + "/linksWithIDs.csv").getFile());
+    public DataSet<Tuple2<Integer,Integer>> getLinksWithIDsDataSetFromCsv(String pathTolinksWithIDsCsv, ExecutionEnvironment env){
+        File linksWithIDsFile = new File(pathTolinksWithIDsCsv);
 
         //Get linksWithIDs.csv
         return env.readCsvFile(linksWithIDsFile.toString())

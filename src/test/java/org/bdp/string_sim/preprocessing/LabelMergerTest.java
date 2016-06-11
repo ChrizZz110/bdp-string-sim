@@ -16,17 +16,19 @@ public class LabelMergerTest extends TestCase {
     private LabelMerger labelMerger;
     private Importer importer;
     private ExecutionEnvironment environment;
+    private ClassLoader classLoader;
     private DataSet<Tuple2<Integer, String>> conceptAttrIdValueTupleDataSet;
     private DataSet<Tuple4<Integer,String,String,String>> conceptAttrDataSet;
 
     public void setUp() throws Exception {
         super.setUp();
         importer = new Importer();
+        classLoader = getClass().getClassLoader();
         environment = ExecutionEnvironment.getExecutionEnvironment();
     }
 
     public void testCrossJoinMerge() throws Exception{
-        conceptAttrDataSet = importer.getConceptAttrDataSetFromCsv(Importer.CSV_TYPE_PERFECT,environment);
+        conceptAttrDataSet = importer.getConceptAttrDataSetFromCsv(classLoader.getResource("perfect/concept.csv").getFile(),environment);
         conceptAttrDataSet = conceptAttrDataSet.filter(new LabelFilter());
         conceptAttrIdValueTupleDataSet = conceptAttrDataSet.map(new MapIdValue());
 
