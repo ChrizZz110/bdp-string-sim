@@ -35,13 +35,13 @@ public class CreateCompareCsvProcess {
         //Map get only the id and property value of the entity
         DataSet<Tuple2<Integer,String>> idValueDataSet= filteredDataSet.map(new MapIdValue());
 
+        //Cross it (Cartesian Product) , joid ids with values
         DataSet<Tuple4<Integer, String, Integer, String>> comparisonDataset = LabelMerger.crossJoinMerge(idValueDataSet);
 
-        //Fort testing: to show the result, print it.
+        //Put it in a csv file.
         comparisonDataset.writeAsCsv("file:///" + output,"\n",";");
 
         env.execute("CreateCompareCsvProcess");
-
     }
 
     /**
@@ -50,9 +50,7 @@ public class CreateCompareCsvProcess {
      * @param args 1st parameter is used as path to config file
      */
     public static void main(String[] args) throws Exception {
-
         CreateCompareCsvProcess cccp = new CreateCompareCsvProcess();
         cccp.run(args[0],args[1]);
-
     }
 }
