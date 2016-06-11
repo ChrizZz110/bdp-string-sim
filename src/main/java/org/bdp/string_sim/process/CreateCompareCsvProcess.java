@@ -38,8 +38,7 @@ public class CreateCompareCsvProcess {
         DataSet<Tuple4<Integer, String, Integer, String>> comparisonDataset = LabelMerger.crossJoinMerge(idValueDataSet);
 
         //Fort testing: to show the result, print it.
-        //comparisonDataset.writeAsCsv("file:///" + output,"\n",";");
-        comparisonDataset.writeAsText("file:///" + output + ".txt");
+        comparisonDataset.writeAsCsv("file:///" + output,"\n",";");
 
         env.execute("CreateCompareCsvProcess");
 
