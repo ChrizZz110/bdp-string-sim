@@ -24,7 +24,7 @@ public class LabelFilterTest extends TestCase {
      * @throws Exception
      */
     public void testLabelFilter() throws Exception{
-        DataSet<Tuple4<Integer,String,String,String>> dataSet = importer.getConceptAttrDataSetFromCsv(classLoader.getResource("perfect/concept.csv").getFile(),environment);
+        DataSet<Tuple4<Integer,String,String,String>> dataSet = importer.getConceptAttrDataSetFromCsv(classLoader.getResource("perfect/concept_attributes.csv").getFile(),environment);
         assertEquals(142,dataSet.count());
         dataSet = dataSet.filter(new LabelFilter());
         assertEquals(31,dataSet.count());

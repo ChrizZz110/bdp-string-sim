@@ -17,8 +17,7 @@ public class LabelMergerTest extends TestCase {
     private Importer importer;
     private ExecutionEnvironment environment;
     private ClassLoader classLoader;
-    private DataSet<Tuple2<Integer, String>> conceptAttrIdValueTupleDataSet;
-    private DataSet<Tuple4<Integer,String,String,String>> conceptAttrDataSet;
+
 
     public void setUp() throws Exception {
         super.setUp();
@@ -28,9 +27,9 @@ public class LabelMergerTest extends TestCase {
     }
 
     public void testCrossJoinMerge() throws Exception{
-        conceptAttrDataSet = importer.getConceptAttrDataSetFromCsv(classLoader.getResource("perfect/concept.csv").getFile(),environment);
+        DataSet<Tuple4<Integer,String,String,String>> conceptAttrDataSet = importer.getConceptAttrDataSetFromCsv(classLoader.getResource("perfect/concept_attributes.csv").getFile(),environment);
         conceptAttrDataSet = conceptAttrDataSet.filter(new LabelFilter());
-        conceptAttrIdValueTupleDataSet = conceptAttrDataSet.map(new MapIdValue());
+        DataSet<Tuple2<Integer, String>> conceptAttrIdValueTupleDataSet = conceptAttrDataSet.map(new MapIdValue());
 
         assertEquals(31,conceptAttrIdValueTupleDataSet.count());
 
