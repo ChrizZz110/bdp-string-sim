@@ -65,6 +65,6 @@ public class MainJob {
         //Map get only the id and property value of the entity
         DataSet<Tuple2<Integer,String>> idValueDataSet= filteredDataSet.map(new MapIdValue());
 
-        idValueDataSet.print();
+       // idValueDataSet.print();
     }
 }
