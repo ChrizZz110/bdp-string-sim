@@ -5,6 +5,7 @@ import org.apache.flink.api.java.ExecutionEnvironment;
 import org.apache.flink.api.java.tuple.Tuple2;
 import org.apache.flink.api.java.tuple.Tuple4;
 import org.bdp.string_sim.importer.Importer;
+import org.bdp.string_sim.preprocessing.DataCleaner;
 import org.bdp.string_sim.preprocessing.LabelMerger;
 import org.bdp.string_sim.process.CreateCompareCsvProcess;
 import org.bdp.string_sim.transformation.LabelFilter;
@@ -65,6 +66,10 @@ public class MainJob {
         //Map get only the id and property value of the entity
         DataSet<Tuple2<Integer,String>> idValueDataSet= filteredDataSet.map(new MapIdValue());
 
-        idValueDataSet.print();
+        //idValueDataSet.print();
+        
+        //clean data of property value
+        DataSet<Tuple2<Integer,String>> cleanDataSet = idValueDataSet.map(new DataCleaner());
+        cleanDataSet.print();
     }
 }
