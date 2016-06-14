@@ -26,7 +26,7 @@ public class DataCleanerTest extends TestCase {
         return environment.readCsvFile(testData.toString())
                 .includeFields("11")
                 .fieldDelimiter(";")
-                //.ignoreInvalidLines()
+                .ignoreInvalidLines()
                 .types(Integer.class,String.class);
     }
     
@@ -35,12 +35,10 @@ public class DataCleanerTest extends TestCase {
     	DataSet<Tuple2<Integer, String>> CleanedTestDataSet = TestDataSet.map(new DataCleaner());
     	assertTrue(CleanedTestDataSet.count() == 9);
     	
-    	//CleanedTestDataSet.print();
     	List<Tuple2<Integer, String>> collectList = CleanedTestDataSet.collect();
         for(Tuple2<Integer, String> tuple : collectList)
         {	
             assertEquals((String)"dresden",(String)tuple.getField(1));
-        }
-        
+        }        
     }
 }
