@@ -4,16 +4,14 @@ import junit.framework.TestCase;
 import org.apache.flink.api.java.DataSet;
 import org.apache.flink.api.java.ExecutionEnvironment;
 import org.apache.flink.api.java.tuple.Tuple2;
-import org.apache.flink.api.java.tuple.Tuple4;
-import org.bdp.string_sim.importer.Importer;
+
+import java.util.List;
 
 public class StrictUpperTriangularMatrixFilterTest extends TestCase{
-    private Importer importer;
     private ExecutionEnvironment environment;
 
     public void setUp() throws Exception {
         super.setUp();
-        importer = new Importer();
         environment = ExecutionEnvironment.getExecutionEnvironment();
     }
 
@@ -22,7 +20,7 @@ public class StrictUpperTriangularMatrixFilterTest extends TestCase{
      *
      * @throws Exception
      */
-    public void testLabelFilter() throws Exception{
+    public void testFilter() throws Exception{
         DataSet<Tuple2<Integer,Integer>> dataSet = environment.fromElements(
                 new Tuple2<Integer, Integer>(1,1),
                 new Tuple2<Integer, Integer>(1,2),
@@ -37,5 +35,11 @@ public class StrictUpperTriangularMatrixFilterTest extends TestCase{
 
         dataSet = dataSet.filter(new StrictUpperTriangularMatrixFilter());
         assertEquals(3,dataSet.count());
+
+        List<Tuple2<Integer, Integer>> tuple2List = dataSet.collect();
+
+        for(Tuple2<Integer, Integer> tuple2 : tuple2List){
+            assertTrue( (int) tuple2.getField(0) > (int) tuple2.getField(1) );
+        }
     }
 }
