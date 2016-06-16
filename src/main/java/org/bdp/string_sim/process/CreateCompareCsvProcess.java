@@ -6,6 +6,7 @@ import org.apache.flink.api.java.tuple.Tuple2;
 import org.apache.flink.api.java.tuple.Tuple4;
 import org.bdp.string_sim.DataModel;
 import org.bdp.string_sim.importer.Importer;
+import org.bdp.string_sim.preprocessing.DataCleaner;
 import org.bdp.string_sim.preprocessing.LabelMerger;
 import org.bdp.string_sim.transformation.LabelFilter;
 import org.bdp.string_sim.transformation.MapIdValue;
@@ -29,14 +30,19 @@ public class CreateCompareCsvProcess {
         //read the csv files into the DataModel
         dataModel.setConceptAttrDataSet(importer.getConceptAttrDataSetFromCsv(input,env));
 
-        //Filter only attributes with property name = label
-        DataSet<Tuple4<Integer, String, String, String>> filteredDataSet = dataModel.getConceptAttrDataSet().filter(new LabelFilter());
+        DataSet<Tuple2<Integer,String>> cleanIdValueDataSet = dataModel.getConceptAttrDataSet()
+                //Filter only attributes with property name = label
+                .filter(new LabelFilter())
 
-        //Map get only the id and property value of the entity
-        DataSet<Tuple2<Integer,String>> idValueDataSet= filteredDataSet.map(new MapIdValue());
+                //Map get only the id and property value of the entity
+                .map(new MapIdValue())
+
+                //Apply the data cleaner
+                .map(new DataCleaner());;
+
 
         //Cross it (Cartesian Product) , join ids with values
-        DataSet<Tuple4<Integer, String, Integer, String>> comparisonDataSet = LabelMerger.crossJoinMerge(idValueDataSet);
+        DataSet<Tuple4<Integer, String, Integer, String>> comparisonDataSet = LabelMerger.crossJoinMerge(cleanIdValueDataSet);
 
         //Put it in a csv file.
         comparisonDataSet.writeAsCsv("file:///" + output,"\n",";");
