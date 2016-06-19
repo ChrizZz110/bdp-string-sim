@@ -11,6 +11,7 @@ import org.bdp.string_sim.process.CreateCompareCsvProcess;
 import org.bdp.string_sim.transformation.LabelFilter;
 import org.bdp.string_sim.transformation.MapIdValue;
 
+import java.io.ObjectInputStream.GetField;
 import java.util.Arrays;
 
 public class MainJob {
@@ -65,8 +66,6 @@ public class MainJob {
 
         //Map get only the id and property value of the entity
         DataSet<Tuple2<Integer,String>> idValueDataSet= filteredDataSet.map(new MapIdValue());
-
-        //idValueDataSet.print();
         
         //clean data of property value
         DataSet<Tuple2<Integer,String>> cleanDataSet = idValueDataSet.map(new DataCleaner());

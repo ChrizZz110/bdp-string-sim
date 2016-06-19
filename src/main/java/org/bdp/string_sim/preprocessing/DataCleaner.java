@@ -25,8 +25,8 @@ public class DataCleaner implements MapFunction<Tuple2<Integer,String>,Tuple2<In
 								.replaceAll("\\s+","")
 								//remove all brackets with content
 								.replaceAll("\\(.*\\)", "")
-								//remove dot, comma, slash, hyphen
-								.replaceAll("[.,/-]","");
+								//remove "Rough breathing", "Smooth breathing", dot, comma, slash, hyphen
+								.replaceAll("[‘’.,/-]","");
 		
 		return new Tuple2<Integer,String>(conceptAttrTuple.getField(0),propertyValue);
 	}
