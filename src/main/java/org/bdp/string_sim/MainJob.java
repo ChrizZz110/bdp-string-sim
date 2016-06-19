@@ -7,7 +7,6 @@ import org.apache.flink.api.java.tuple.Tuple2;
 import org.apache.flink.api.java.tuple.Tuple4;
 import org.bdp.string_sim.importer.Importer;
 import org.bdp.string_sim.preprocessing.DataCleaner;
-import org.bdp.string_sim.preprocessing.LabelMerger;
 import org.bdp.string_sim.process.CreateCompareCsvProcess;
 import org.bdp.string_sim.process.Tokenizer;
 import org.bdp.string_sim.transformation.LabelFilter;

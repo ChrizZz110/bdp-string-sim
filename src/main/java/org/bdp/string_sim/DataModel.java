@@ -23,6 +23,7 @@ public class DataModel {
     private DataSet<Tuple2<Integer,Integer>> linksWithIDsDataSet;
 
     public DataModel() {
+
     }
 
     public DataSet<Tuple3<Integer, String, String>> getConceptDataSet() {
