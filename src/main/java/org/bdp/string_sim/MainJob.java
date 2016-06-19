@@ -5,6 +5,7 @@ import org.apache.flink.api.java.ExecutionEnvironment;
 import org.apache.flink.api.java.tuple.Tuple1;
 import org.apache.flink.api.java.tuple.Tuple2;
 import org.apache.flink.api.java.tuple.Tuple4;
+import org.apache.flink.util.Collector;
 import org.bdp.string_sim.importer.Importer;
 import org.bdp.string_sim.preprocessing.DataCleaner;
 import org.bdp.string_sim.process.CreateCompareCsvProcess;
@@ -72,9 +73,9 @@ public class MainJob {
         DataSet<Tuple2<Integer,String>> cleanDataSet = idValueDataSet.map(new DataCleaner());
         //cleanDataSet.print();
         
-        DataSet<String> testString = env.fromElements("Tokenizer");
-        DataSet<Tuple1<String>> testTuple = testString.flatMap(new Tokenizer());
-        									
-        testTuple.print();
+        //DataSet<String> testString = env.fromElements("Tokenizer");
+        String testString = "Tokenizer";
+        
+
     }
 }

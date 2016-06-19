@@ -1,17 +1,31 @@
 package org.bdp.string_sim.process;
 
-import org.apache.flink.api.common.functions.FlatMapFunction;
-import org.apache.flink.api.java.tuple.Tuple1;
+import java.util.ArrayList;
+
 import org.apache.flink.util.Collector;
 
-public class Tokenizer implements FlatMapFunction<String,Tuple1<String>> {
+public class Tokenizer {
 
-	@Override
-	public void flatMap(String value, Collector<Tuple1<String>> out) throws Exception {
+	public ArrayList<String> flatMap(String value) throws Exception {
+		
+		if (!value.isEmpty()) {
+			ArrayList<String> arr = new ArrayList<String>();
+			String fullValue = "##" + value + "##";
+			
+			for (int i=0; i<value.length()+2; i++){
+				arr.add(fullValue.substring(0+i, 3+i));
+			}
+			return arr;
+		}
+		return null;
+		
+	}
+	
+	public void flatMap(String value, Collector<String> out, Integer nGram ) throws Exception {
 		if (!value.isEmpty()) {
 			String fullValue = "##" + value + "##";
-			for (int i=0; i<value.length()+2; i++){
-				out.collect(new Tuple1<String>(fullValue.substring(0+i, 3+i)));
+			for (int i=0; i<value.length()+2 && value.length()>nGram; i++){
+				out.collect(new String(fullValue.substring(0+i, 3+i+nGram)));
 			}
 		}
 	}
