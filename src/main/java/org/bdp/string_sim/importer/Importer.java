@@ -14,7 +14,7 @@ public class Importer {
     }
 
     /**
-     * Imports the concept.csv from the given directory (type).
+     * Imports the concept.csv from the given path.
      * @param pathToConceptCsv path to concept.csv
      * @param env the flink execution enviroment
      * @return DataSet<Tuple3> the csv representation as flink dataset
@@ -30,7 +30,7 @@ public class Importer {
     }
 
     /**
-     * Imports the concept_attributes.csv from the given directory (type).
+     * Imports the concept_attributes.csv from the given path.
      * @param pathToConceptAttrCsv path to concept_attributes.csv
      * @param env the flink execution enviroment
      * @return DataSet<Tuple4> the csv representation as flink dataset
@@ -47,7 +47,7 @@ public class Importer {
     }
 
     /**
-     * Imports the linksWithIDs.csv from the given directory (type).
+     * Imports the linksWithIDs.csv from the given path.
      * @param pathTolinksWithIDsCsv path to linksWithIDs.csv
      * @param env the flink execution enviroment
      * @return DataSet<Tuple2> the csv representation as flink dataset
@@ -61,5 +61,25 @@ public class Importer {
                 .fieldDelimiter(";")
                 .ignoreInvalidLines()
                 .types(Integer.class,Integer.class);
+    }
+
+    /**
+     * Imports the cleaned and crossed csv from the given path.
+     * One entity (one line in the csv) has to be a Tuple4 of type Integer,String,Integer,String
+     * which means (Entity ID A),(Label value A),(Entity ID B),(Label value B).
+     *
+     * @param pathToCsv path to the csv file
+     * @param env the flink execution enviroment
+     * @return DataSet<Tuple4> the csv representation as flink dataset
+     */
+    public DataSet<Tuple4<Integer,String,Integer,String>> getMergedIdValueDataSetFromCsv(String pathToCsv, ExecutionEnvironment env){
+        File idValueEntitiesFile = new File(pathToCsv);
+
+        //Get concept_attributes.csv
+        return env.readCsvFile(idValueEntitiesFile.toString())
+                .includeFields("1111")
+                .fieldDelimiter(";")
+                .ignoreInvalidLines()
+                .types(Integer.class,String.class,Integer.class,String.class);
     }
 }
