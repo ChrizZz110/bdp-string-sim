@@ -71,11 +71,9 @@ public class MainJob {
         
         //clean data of property value
         DataSet<Tuple2<Integer,String>> cleanDataSet = idValueDataSet.map(new DataCleaner());
-        //cleanDataSet.print();
         
-        //DataSet<String> testString = env.fromElements("Tokenizer");
-        String testString = "Tokenizer";
-        
-
+        //test Tokenizer
+        DataSet<String> testString = env.fromElements("Tokenizer");
+        testString.flatMap(new Tokenizer(5)).print();
     }
 }
