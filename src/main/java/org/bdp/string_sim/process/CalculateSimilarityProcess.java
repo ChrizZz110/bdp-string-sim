@@ -1,8 +1,11 @@
 package org.bdp.string_sim.process;
 
+import org.apache.flink.api.java.DataSet;
 import org.apache.flink.api.java.ExecutionEnvironment;
 import org.bdp.string_sim.DataModel;
 import org.bdp.string_sim.importer.Importer;
+import org.bdp.string_sim.transformation.StringCompareMap;
+import org.bdp.string_sim.types.ResultTuple5;
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -52,6 +55,8 @@ public class CalculateSimilarityProcess {
         );
 
         //do algo1 and output a csv file to outputDir
+        DataSet<ResultTuple5> algo1ResultDataSet = dataModel.getCrossedIdLabelDataSet().flatMap(new StringCompareMap(false));
+        algo1ResultDataSet.writeAsCsv("file:///" + outputDir + "/algo1Result.csv","\n",";");
 
         //do algo2 and output a csv file to outputDir
 
@@ -59,6 +64,7 @@ public class CalculateSimilarityProcess {
 
         //do algo4 and output a csv file to outputDir
 
+        env.execute("CalculateSimilarityProcess");
     }
 
     /**
