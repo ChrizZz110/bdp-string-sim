@@ -1,4 +1,4 @@
-package org.bdp.string_sim.process;
+package org.bdp.string_sim.transformation;
 
 import org.apache.flink.api.common.functions.FlatMapFunction;
 import org.apache.flink.util.Collector;
@@ -29,9 +29,8 @@ public class Tokenizer implements FlatMapFunction<String, String>{
 		if (!value.isEmpty()) {
 			
 			//generate placeholder characters around value, according to property nGramDigits
-			String placeholderValue = 	(new String(new char[nGramDigits]).replace('\0','#')) +
-										value +
-										(new String(new char[nGramDigits]).replace('\0','#'));
+			String placeholder = (new String(new char[nGramDigits]).replace('\0','#'));
+			String placeholderValue = placeholder + value + placeholder;
 			
 			//tokenize
 			for (int i=0; i<placeholderValue.length()+1-nGramDigits; i++) {

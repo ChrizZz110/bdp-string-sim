@@ -1,4 +1,4 @@
-package org.bdp.string_sim.processing;
+package org.bdp.string_sim.transformation;
 
 import org.apache.flink.api.java.ExecutionEnvironment;
 

@@ -9,9 +9,9 @@ import org.apache.flink.util.Collector;
 import org.bdp.string_sim.importer.Importer;
 import org.bdp.string_sim.preprocessing.DataCleaner;
 import org.bdp.string_sim.process.CreateCompareCsvProcess;
-import org.bdp.string_sim.process.Tokenizer;
 import org.bdp.string_sim.transformation.LabelFilter;
 import org.bdp.string_sim.transformation.MapIdValue;
+import org.bdp.string_sim.transformation.Tokenizer;
 
 import java.io.ObjectInputStream.GetField;
 import java.util.Arrays;
@@ -71,10 +71,10 @@ public class MainJob {
         
         //clean data of property value
         DataSet<Tuple2<Integer,String>> cleanDataSet = idValueDataSet.map(new DataCleaner(true));
-        cleanDataSet.print();
+        //cleanDataSet.print();
         
         //test Tokenizer
-        //DataSet<String> testString = env.fromElements("Tokenizer");
-        //testString.flatMap(new Tokenizer(5)).print();
+        DataSet<String> testString = env.fromElements("Tokenizer");
+        testString.flatMap(new Tokenizer(5)).print();
     }
 }
