@@ -32,8 +32,8 @@ public class DataCleanerTest extends TestCase {
     
     public void testDataCleaner() throws Exception {
     	DataSet<Tuple2<Integer, String>> TestDataSet = this.getDataCleanerTestDataFromCsv();
-    	DataSet<Tuple2<Integer, String>> CleanedTestDataSet = TestDataSet.map(new DataCleaner());
-    	assertTrue(CleanedTestDataSet.count() == 9);
+    	DataSet<Tuple2<Integer, String>> CleanedTestDataSet = TestDataSet.map(new DataCleaner(true));
+    	assertTrue(CleanedTestDataSet.count() == 11);
     	
     	List<Tuple2<Integer, String>> collectList = CleanedTestDataSet.collect();
         for(Tuple2<Integer, String> tuple : collectList)

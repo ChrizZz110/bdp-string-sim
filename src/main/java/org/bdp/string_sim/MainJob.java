@@ -70,10 +70,11 @@ public class MainJob {
         DataSet<Tuple2<Integer,String>> idValueDataSet= filteredDataSet.map(new MapIdValue());
         
         //clean data of property value
-        DataSet<Tuple2<Integer,String>> cleanDataSet = idValueDataSet.map(new DataCleaner());
+        DataSet<Tuple2<Integer,String>> cleanDataSet = idValueDataSet.map(new DataCleaner(true));
+        cleanDataSet.print();
         
         //test Tokenizer
-        DataSet<String> testString = env.fromElements("Tokenizer");
-        testString.flatMap(new Tokenizer(5)).print();
+        //DataSet<String> testString = env.fromElements("Tokenizer");
+        //testString.flatMap(new Tokenizer(5)).print();
     }
 }
