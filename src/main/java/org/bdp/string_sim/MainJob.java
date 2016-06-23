@@ -2,15 +2,19 @@ package org.bdp.string_sim;
 
 import org.apache.flink.api.java.DataSet;
 import org.apache.flink.api.java.ExecutionEnvironment;
+import org.apache.flink.api.java.tuple.Tuple1;
 import org.apache.flink.api.java.tuple.Tuple2;
 import org.apache.flink.api.java.tuple.Tuple4;
+import org.apache.flink.util.Collector;
 import org.bdp.string_sim.importer.Importer;
 import org.bdp.string_sim.preprocessing.DataCleaner;
 import org.bdp.string_sim.process.CalculateSimilarityProcess;
 import org.bdp.string_sim.process.CreateCompareCsvProcess;
+import org.bdp.string_sim.process.Tokenizer;
 import org.bdp.string_sim.transformation.LabelFilter;
 import org.bdp.string_sim.transformation.MapIdValue;
 
+import java.io.ObjectInputStream.GetField;
 import java.util.Arrays;
 
 public class MainJob {
@@ -64,12 +68,14 @@ public class MainJob {
 
         //Map get only the id and property value of the entity
         DataSet<Tuple2<Integer,String>> idValueDataSet= filteredDataSet.map(new MapIdValue());
-
-        //idValueDataSet.print();
         
         //clean data of property value
-        DataSet<Tuple2<Integer,String>> cleanDataSet = idValueDataSet.map(new DataCleaner());
-        cleanDataSet.print();
+        DataSet<Tuple2<Integer,String>> cleanDataSet = idValueDataSet.map(new DataCleaner(true));
+        //cleanDataSet.print();
+        
+        //test Tokenizer
+        DataSet<String> testString = env.fromElements("Tokenizer");
+        testString.flatMap(new Tokenizer(10)).print();
     }
 
     private static void printSyntaxDocumentation()
