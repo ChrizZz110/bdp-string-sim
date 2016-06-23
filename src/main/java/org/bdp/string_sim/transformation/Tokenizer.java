@@ -29,7 +29,7 @@ public class Tokenizer implements FlatMapFunction<String, String>{
 		if (!value.isEmpty()) {
 			
 			//generate placeholder characters around value, according to property nGramDigits
-			String placeholder = (new String(new char[nGramDigits]).replace('\0','#'));
+			String placeholder = (new String(new char[nGramDigits-1]).replace('\0','#'));
 			String placeholderValue = placeholder + value + placeholder;
 			
 			//tokenize
