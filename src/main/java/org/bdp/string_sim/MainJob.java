@@ -68,7 +68,7 @@ public class MainJob {
         DataSet<Tuple2<Integer,String>> idValueDataSet= filteredDataSet.map(new MapIdValue());
         
         //clean data of property value
-        DataSet<Tuple2<Integer,String>> cleanDataSet = idValueDataSet.map(new DataCleaner(true));
+        //DataSet<Tuple2<Integer,String>> cleanDataSet = idValueDataSet.map(new DataCleaner(true));
         
         //test Tokenizer/Dictionary
         String testString = "Tokenizer";
