@@ -16,7 +16,7 @@ public class TokenizerTest extends TestCase {
         environment = ExecutionEnvironment.getExecutionEnvironment();
     }
     
-    public void TestTokenizer()throws Exception {
+    public void testTokenizer()throws Exception {
     	
     }
 }
