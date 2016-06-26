@@ -1,4 +1,4 @@
-package org.bdp.string_sim.processing;
+package org.bdp.string_sim.transformation;
 
 import org.apache.flink.api.java.ExecutionEnvironment;
 
@@ -16,7 +16,7 @@ public class TokenizerTest extends TestCase {
         environment = ExecutionEnvironment.getExecutionEnvironment();
     }
     
-    public void TestTokenizer()throws Exception {
+    public void testTokenizer()throws Exception {
     	
     }
 }
