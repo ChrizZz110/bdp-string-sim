@@ -10,7 +10,7 @@ import org.bdp.string_sim.process.CalculateSimilarityProcess;
 import org.bdp.string_sim.process.CreateCompareCsvProcess;
 import org.bdp.string_sim.transformation.LabelFilter;
 import org.bdp.string_sim.transformation.MapIdValue;
-import org.bdp.string_sim.transformation.Tokenizer;
+import org.bdp.string_sim.utilities.Tokenizer;
 
 import java.util.ArrayList;
 import java.util.Arrays;

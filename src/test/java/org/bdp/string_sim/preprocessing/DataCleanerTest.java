@@ -19,7 +19,7 @@ public class DataCleanerTest extends TestCase {
         classLoader = getClass().getClassLoader();
     }
     
-    //csv testdata import for Tuple2<Integer,String>
+    //csv testdata import
     public DataSet<Tuple2<Integer,String>> getDataCleanerTestDataFromCsv(){
         File testData = new File(classLoader.getResource("iss4DataCleanerTestData.csv").getFile());
 
@@ -32,13 +32,31 @@ public class DataCleanerTest extends TestCase {
     
     public void testDataCleaner() throws Exception {
     	DataSet<Tuple2<Integer, String>> TestDataSet = this.getDataCleanerTestDataFromCsv();
-    	DataSet<Tuple2<Integer, String>> CleanedTestDataSet = TestDataSet.map(new DataCleaner(true));
-    	assertTrue(CleanedTestDataSet.count() == 11);
+    	DataSet<Tuple2<Integer, String>> CleanedTestDataSetTrue = TestDataSet.map(new DataCleaner(true));
+    	DataSet<Tuple2<Integer, String>> CleanedTestDataSetFalse = TestDataSet.map(new DataCleaner(false));
     	
-    	List<Tuple2<Integer, String>> collectList = CleanedTestDataSet.collect();
-        for(Tuple2<Integer, String> tuple : collectList)
-        {	
-            assertEquals((String)"dresden",(String)tuple.getField(1));
-        }        
+    	assertTrue(CleanedTestDataSetTrue.count() == 17);
+    	assertTrue(CleanedTestDataSetFalse.count() == 17);
+    	List<Tuple2<Integer, String>> collectListTrue = CleanedTestDataSetTrue.collect();
+    	List<Tuple2<Integer, String>> collectListFalse = CleanedTestDataSetFalse.collect();
+    	
+    	//test Mode true - eliminate brackets&content + content after comma
+        for(Tuple2<Integer, String> tuple : collectListTrue) {	
+        	if ((Integer)tuple.getField(0) >= 0 && (Integer)tuple.getField(0) <= 11) {
+        		assertEquals((String)"dresden",(String)tuple.getField(1));
+        	}
+        	System.out.println((String)tuple.getField(1));
+        }
+        
+        //test Mode false - leave brackets and content after comma (comma character will still be eliminated)
+        for(Tuple2<Integer, String> tuple : collectListFalse) {
+        	if ((Integer)tuple.getField(0) >= 12 && (Integer)tuple.getField(0) <= 14) {
+        		assertEquals((String)"dresden(sachsen)",(String)tuple.getField(1));
+        	}
+        	
+        	if ((Integer)tuple.getField(0) >= 15 && (Integer)tuple.getField(0) <= 17) {
+        		assertEquals((String)"dresdensachsen",(String)tuple.getField(1));
+        	}
+        }
     }
 }

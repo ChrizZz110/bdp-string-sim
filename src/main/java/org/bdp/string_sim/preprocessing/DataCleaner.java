@@ -25,10 +25,11 @@ public class DataCleaner implements MapFunction<Tuple2<Integer,String>,Tuple2<In
      * Cleaning operations are: 
      * - transform to lower Case
      * - eliminate whitespaces
-     * - eliminate all brackets with its content
      * - eliminate special characters
-     * @param conceptAttrTuple the input tuple from the concept_attribute dataset of type Tuple2<Integer, String>
-     * @return Tuple2<> of type Integer and String => the id and cleaned property value
+     * - (optional) eliminate all brackets with its content
+     * - (optional) eliminate content after comma
+     * @param conceptAttrTuple the input tuple of type Tuple2<Integer, String>
+     * @return Tuple2<Integer,String> => the entityId and cleaned property value
      * @throws Exception
      */
 	@Override
