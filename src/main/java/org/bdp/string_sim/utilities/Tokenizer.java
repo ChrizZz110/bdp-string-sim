@@ -14,8 +14,6 @@ public class Tokenizer {
      */
 	public Tokenizer(int nGramDigits) {
 		this.nGramDigits = nGramDigits;
-		
-		//TODO: may delimit to values that are plausible
 	}
 	
 	/**
