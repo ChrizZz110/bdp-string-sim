@@ -45,7 +45,6 @@ public class DataCleanerTest extends TestCase {
         	if ((Integer)tuple.getField(0) >= 0 && (Integer)tuple.getField(0) <= 11) {
         		assertEquals((String)"dresden",(String)tuple.getField(1));
         	}
-        	System.out.println((String)tuple.getField(1));
         }
         
         //test Mode false - leave brackets and content after comma (comma character will still be eliminated)
