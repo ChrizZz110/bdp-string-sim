@@ -5,6 +5,7 @@ import org.apache.flink.api.java.tuple.Tuple4;
 import org.apache.flink.util.Collector;
 import org.bdp.string_sim.Dictionary;
 import org.bdp.string_sim.types.ResultTuple5;
+import org.bdp.string_sim.utilities.Tokenizer;
 
 import java.util.ArrayList;
 import java.util.Collections;
