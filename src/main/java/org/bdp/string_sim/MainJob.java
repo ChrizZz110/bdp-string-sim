@@ -10,6 +10,7 @@ import org.bdp.string_sim.process.CalculateSimilarityProcess;
 import org.bdp.string_sim.process.CreateCompareCsvProcess;
 import org.bdp.string_sim.transformation.LabelFilter;
 import org.bdp.string_sim.transformation.MapIdValue;
+import org.bdp.string_sim.utilities.DiceMetric;
 import org.bdp.string_sim.utilities.Tokenizer;
 
 import java.util.ArrayList;
@@ -73,13 +74,17 @@ public class MainJob {
         //test Tokenizer/Dictionary
         String testString = "Tokenizer";
         String testString2 = "StringValue";
+//        
+//        Tokenizer tok = new Tokenizer(4);
+//        Dictionary dic = new Dictionary();
+//        
+//        dic.add(tok.tokenize(testString));
+//        dic.add(tok.tokenize(testString2));
+//        System.out.println(dic.getDictionary());
+        System.out.println(DiceMetric.calculate(testString.length(), testString2.length(), 9));
+        System.out.println(testString.length());
+        System.out.println(testString2.length());
         
-        Tokenizer tok = new Tokenizer(4);
-        Dictionary dic = new Dictionary();
-        
-        dic.add(tok.tokenize(testString));
-        dic.add(tok.tokenize(testString2));
-        System.out.println(dic.getDictionary());
     }
 
     private static void printSyntaxDocumentation()
