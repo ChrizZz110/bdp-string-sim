@@ -63,7 +63,7 @@ public class CalculateSimilarityProcess {
 
         //do SortMergeAlgo and output a csv file to outputDir
         DataSet<ResultTuple5> sortMergeResultDataSet = dataModel.getCrossedIdLabelDataSet().flatMap(new SortMergeFlatMap());
-        algo1ResultDataSet.writeAsCsv("file:///" + outputDir + "/sortMergeResult.csv","\n",";");
+        sortMergeResultDataSet.writeAsCsv("file:///" + outputDir + "/sortMergeResult.csv","\n",";");
 
         //do algo4 and output a csv file to outputDir
 
