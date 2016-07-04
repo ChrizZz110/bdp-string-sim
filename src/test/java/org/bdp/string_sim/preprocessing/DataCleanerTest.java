@@ -37,7 +37,7 @@ public class DataCleanerTest extends TestCase {
     	
     	List<Tuple2<Integer, String>> collectList = CleanedTestDataSet.collect();
         for(Tuple2<Integer, String> tuple : collectList)
-        {	
+        {
             assertEquals((String)"dresden",(String)tuple.getField(1));
         }        
     }
