@@ -25,6 +25,16 @@ Description:
 * builds a strict upper triangular matrix by filtering all tuples where id1 < id2
 * output as csv
 
+### Calculate Similarity
+* Name: calculateSimilarity
+* arg1: path/to/NameOfCrossedAndMerged.csv
+* arg2: path/to/output/directory
+
+Description:
+* imports the NameOfCrossedAndMerged.csv
+* runs 4 similarity algorithms: naive a, naive b, sort merge and simmetrics
+* output 4 csv files in the output directory
+
 ## Data Structure
 *concept.csv* columns: entity id, uri, source  
 *concept_attributes.csv* columns: entity id, property name, property value, property type  
