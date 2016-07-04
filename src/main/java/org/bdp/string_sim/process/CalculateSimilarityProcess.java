@@ -4,6 +4,7 @@ import org.apache.flink.api.java.DataSet;
 import org.apache.flink.api.java.ExecutionEnvironment;
 import org.bdp.string_sim.DataModel;
 import org.bdp.string_sim.importer.Importer;
+import org.bdp.string_sim.transformation.SortMergeFlatMap;
 import org.bdp.string_sim.transformation.StringCompareMap;
 import org.bdp.string_sim.types.ResultTuple5;
 
@@ -60,7 +61,9 @@ public class CalculateSimilarityProcess {
 
         //do algo2 and output a csv file to outputDir
 
-        //do algo3 and output a csv file to outputDir
+        //do SortMergeAlgo and output a csv file to outputDir
+        DataSet<ResultTuple5> sortMergeResultDataSet = dataModel.getCrossedIdLabelDataSet().flatMap(new SortMergeFlatMap());
+        algo1ResultDataSet.writeAsCsv("file:///" + outputDir + "/sortMergeResult.csv","\n",";");
 
         //do algo4 and output a csv file to outputDir
 
