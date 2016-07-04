@@ -73,10 +73,10 @@ public class MainJob {
         //test Tokenizer/Dictionary
         String testString = "Tokenizer";
         String testString2 = "StringValue";
-        
+
         Tokenizer tok = new Tokenizer(4);
         Dictionary dic = new Dictionary();
-        
+
         dic.add(tok.tokenize(testString));
         dic.add(tok.tokenize(testString2));
         System.out.println(dic.getDictionary());
