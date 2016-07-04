@@ -1,9 +1,8 @@
-package org.bdp.string_sim.process;
+package org.bdp.string_sim.utilities;
 
-import org.apache.flink.api.common.functions.FlatMapFunction;
-import org.apache.flink.util.Collector;
+import java.util.ArrayList;
 
-public class Tokenizer implements FlatMapFunction<String, String>{
+public class Tokenizer {
 
 	private int nGramDigits = 3;
 
@@ -15,28 +14,27 @@ public class Tokenizer implements FlatMapFunction<String, String>{
      */
 	public Tokenizer(int nGramDigits) {
 		this.nGramDigits = nGramDigits;
-		
-		//TODO: may delimit to values that are plausible
 	}
 	
 	/**
      * This Function separates a String, based on the value in nGramDigits, into a number of Strings (Tokens)
      * @param value of type String that will be tokenized
+     * @return ArrayList of tokens
      * @throws Exception
      */
-	public void flatMap(String value, Collector<String> out) throws Exception {
+	public ArrayList<String> tokenize(String value) throws Exception {
+		ArrayList<String> tokens = new ArrayList<String>();
 		
 		if (!value.isEmpty()) {
-			
 			//generate placeholder characters around value, according to property nGramDigits
-			String placeholderValue = 	(new String(new char[nGramDigits]).replace('\0','#')) +
-										value +
-										(new String(new char[nGramDigits]).replace('\0','#'));
+			String placeholder = (new String(new char[nGramDigits-1]).replace('\0','#'));
+			String placeholderValue = placeholder + value + placeholder;
 			
 			//tokenize
 			for (int i=0; i<placeholderValue.length()+1-nGramDigits; i++) {
-				out.collect(new String (placeholderValue.substring(0+i, nGramDigits+i)));
-			}	
+				tokens.add(new String (placeholderValue.substring(0+i, nGramDigits+i)));
+			}
 		}
+		return tokens;
 	}
 }

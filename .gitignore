@@ -17,3 +17,4 @@ hs_err_pid*
 
 /src/main/resources/linklion
 #/src/main/resources/perfect
+/target/

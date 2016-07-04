@@ -2,19 +2,17 @@ package org.bdp.string_sim;
 
 import org.apache.flink.api.java.DataSet;
 import org.apache.flink.api.java.ExecutionEnvironment;
-import org.apache.flink.api.java.tuple.Tuple1;
 import org.apache.flink.api.java.tuple.Tuple2;
 import org.apache.flink.api.java.tuple.Tuple4;
-import org.apache.flink.util.Collector;
 import org.bdp.string_sim.importer.Importer;
 import org.bdp.string_sim.preprocessing.DataCleaner;
 import org.bdp.string_sim.process.CalculateSimilarityProcess;
 import org.bdp.string_sim.process.CreateCompareCsvProcess;
-import org.bdp.string_sim.process.Tokenizer;
 import org.bdp.string_sim.transformation.LabelFilter;
 import org.bdp.string_sim.transformation.MapIdValue;
+import org.bdp.string_sim.utilities.Tokenizer;
 
-import java.io.ObjectInputStream.GetField;
+import java.util.ArrayList;
 import java.util.Arrays;
 
 public class MainJob {
@@ -70,12 +68,18 @@ public class MainJob {
         DataSet<Tuple2<Integer,String>> idValueDataSet= filteredDataSet.map(new MapIdValue());
         
         //clean data of property value
-        DataSet<Tuple2<Integer,String>> cleanDataSet = idValueDataSet.map(new DataCleaner(true));
-        cleanDataSet.print();
+        //DataSet<Tuple2<Integer,String>> cleanDataSet = idValueDataSet.map(new DataCleaner(true));
         
-        //test Tokenizer
-        //DataSet<String> testString = env.fromElements("Tokenizer");
-        //testString.flatMap(new Tokenizer(5)).print();
+        //test Tokenizer/Dictionary
+        String testString = "Tokenizer";
+        String testString2 = "StringValue";
+
+        Tokenizer tok = new Tokenizer(4);
+        Dictionary dic = new Dictionary();
+
+        dic.add(tok.tokenize(testString));
+        dic.add(tok.tokenize(testString2));
+        System.out.println(dic.getDictionary());
     }
 
     private static void printSyntaxDocumentation()
