@@ -4,6 +4,7 @@ import org.apache.flink.api.java.DataSet;
 import org.apache.flink.api.java.ExecutionEnvironment;
 import org.apache.flink.api.java.tuple.Tuple2;
 import org.apache.flink.api.java.tuple.Tuple4;
+import org.apache.flink.api.java.utils.ParameterTool;
 import org.bdp.string_sim.DataModel;
 import org.bdp.string_sim.importer.Importer;
 import org.bdp.string_sim.preprocessing.DataCleaner;
@@ -53,10 +54,10 @@ public class CreateCompareCsvProcess {
     /**
      * entry point
      *
-     * @param args 1st parameter is used as path to config file
+     * @param parameters Flink ParameterTool object
      */
-    public static void main(String[] args) throws Exception {
+    public static void main(ParameterTool parameters) throws Exception {
         CreateCompareCsvProcess cccp = new CreateCompareCsvProcess();
-        cccp.run(args[0],args[1]);
+        cccp.run(parameters.getRequired("inputCsv"),parameters.getRequired("outputCsv"));
     }
 }

@@ -24,13 +24,6 @@ public class SortMergeFlatMap implements FlatMapFunction<Tuple4<Integer,String,I
     private int nGramDigits = 3;
 
     /**
-     * Std. constructor. threshold is 0 and digit size of n-gram is 3.
-     */
-    public SortMergeFlatMap(){
-
-    }
-
-    /**
      * Extended constructor. The threshold and digit size can be specified.
      *
      * @param threshold Only tuples with a similarity value above (>=) the threshold will be collected. The threshold has to be between 0 and 1.

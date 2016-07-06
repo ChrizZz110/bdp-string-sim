@@ -29,13 +29,13 @@ Required parameters:
 * `--outputDir path/to/output/directory`
 
 Optional parameters:
-* `--algorithms stringCompare,stringCompareNgram,sortMerge,simmetrics`  
+* `--algorithms stringCompare,stringCompareNgram,sortMerge,simmetrics`
 To calculate the string similarity there are 4 different algorithms/techniques. This parameter controls which algorithm(s) will be used. By default, all will be executed.
 
-* `--threshold X.XX`  
+* `--threshold X.XX`
 Only tuples with a dice similarity >= X.XX will be collected in the result dataset
 
-* `--tokenizeDigits Y`  
+* `--tokenizeDigits Y`
 Size of an n-gram. Y = 3 by default.
 
 Description:

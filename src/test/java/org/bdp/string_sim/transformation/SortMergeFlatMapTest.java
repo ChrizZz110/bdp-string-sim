@@ -10,12 +10,11 @@ import java.util.List;
 
 public class SortMergeFlatMapTest extends TestCase {
 
-    private ExecutionEnvironment environment;
     private DataSet<Tuple4<Integer, String, Integer, String>> dataSet;
 
     public void setUp() throws Exception {
         super.setUp();
-        environment = ExecutionEnvironment.getExecutionEnvironment();
+        ExecutionEnvironment environment = ExecutionEnvironment.getExecutionEnvironment();
         dataSet = environment.fromElements(
                 new Tuple4<Integer, String, Integer, String>(1, "haus", 4, "garten"),
                 new Tuple4<Integer, String, Integer, String>(2, "garten", 4, "haus"),
@@ -29,7 +28,7 @@ public class SortMergeFlatMapTest extends TestCase {
 
     public void testSortMergeStd() throws Exception{
 
-        List<ResultTuple5> list = dataSet.flatMap(new SortMergeFlatMap()).collect();
+        List<ResultTuple5> list = dataSet.flatMap(new SortMergeFlatMap(0.0,3)).collect();
 
         for (ResultTuple5 resultTuple5 : list)
         {
