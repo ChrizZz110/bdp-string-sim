@@ -40,7 +40,8 @@ public class StringCompareTrigram implements FlatMapFunction<Tuple4<Integer,Stri
     	
     	float diceMetric = DiceMetric.calculate(stringListA.size(), stringListB.size(), match);
     	
-    	if (diceMetric >= thresholdMatch) collector.collect(new ResultTuple5(
+    	//if (diceMetric >= thresholdMatch) 
+    		collector.collect(new ResultTuple5(
 								    			input.getField(0),
 								    			input.getField(1),
 								    			input.getField(2),

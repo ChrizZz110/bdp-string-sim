@@ -60,8 +60,8 @@ public class CalculateSimilarityProcess {
         algo1ResultDataSet.writeAsCsv("file:///" + outputDir + "/algo1Result.csv","\n",";");
 
         //do algo2 and output a csv file to outputDir
-        //DataSet<ResultTuple5> algo2ResultDataSet = dataModel.getCrossedIdLabelDataSet().flatMap(new StringCompareTrigram());
-        //algo2ResultDataSet.writeAsCsv("file:///" + outputDir + "/algo2Result.csv","\n",";");
+        DataSet<ResultTuple5> algo2ResultDataSet = dataModel.getCrossedIdLabelDataSet().flatMap(new StringCompareTrigram());
+        algo2ResultDataSet.writeAsCsv("file:///" + outputDir + "/algo2Result.csv","\n",";");
 
         //do algo3 and output a csv file to outputDir
 
