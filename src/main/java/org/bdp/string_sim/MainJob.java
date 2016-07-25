@@ -84,7 +84,6 @@ public class MainJob {
         System.out.println(DiceMetric.calculate(testString.length(), testString2.length(), 9));
         System.out.println(testString.length());
         System.out.println(testString2.length());
-        
     }
 
     private static void printSyntaxDocumentation()
