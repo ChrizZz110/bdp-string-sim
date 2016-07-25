@@ -8,6 +8,7 @@ import org.bdp.string_sim.importer.Importer;
 import org.bdp.string_sim.transformation.SortMergeFlatMap;
 import org.bdp.string_sim.transformation.StringCompareMap;
 import org.bdp.string_sim.types.ResultTuple5;
+import org.bdp.string_sim.utilities.PerformanceMeter;
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -75,10 +76,17 @@ public class CalculateSimilarityProcess {
                     break;
                 case "sortMerge":
                     System.out.println("Start similarity algorithm: sortMerge.");
+
+                    PerformanceMeter performanceMeter = new PerformanceMeter("sortMerge");
+                    performanceMeter.startMeasuring();
+
                     //do SortMergeAlgo and output a csv file to outputDir
                     DataSet<ResultTuple5> sortMergeResultDataSet = dataModel.getCrossedIdLabelDataSet().flatMap(new SortMergeFlatMap(threshold,tokenizeDigits));
                     sortMergeResultDataSet.writeAsCsv("file:///" + outputDir + "/sortMergeResult.csv","\n",";");
+
+                    performanceMeter.stopMeasuring();
                     System.out.println("Finished similarity algorithm: sortMerge.");
+                    performanceMeter.writeResultsToConsole();
                     break;
                 case "simmetrics":
 
