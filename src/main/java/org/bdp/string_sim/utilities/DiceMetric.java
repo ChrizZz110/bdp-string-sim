@@ -4,7 +4,7 @@ public class DiceMetric {
 	
 	public static float calculate(int numberTokensA, int numberTokensB, int match) {
 		
-		float metric = (2*(float)match) / ((float)numberTokensA+(float)numberTokensB);
+		float metric = (2*(float)match) / (numberTokensA+numberTokensB);
 		return metric;
 	}
 }
