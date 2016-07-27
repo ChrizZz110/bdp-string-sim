@@ -11,16 +11,19 @@ import org.bdp.string_sim.preprocessing.DataCleaner;
 import org.bdp.string_sim.preprocessing.LabelMerger;
 import org.bdp.string_sim.transformation.LabelFilter;
 import org.bdp.string_sim.transformation.MapIdValue;
+import org.bdp.string_sim.utilities.FileNameHelper;
+
+import java.io.File;
 
 public class CreateCompareCsvProcess {
 
     /**
      * run conversion process
-     * @param input path to concept_attributes.csv
-     * @param output path to output csv
+     * @param inputCsv path to concept_attributes.csv
+     * @param outputCsv path to output csv
      * @throws Exception
      */
-    private void run(String input,String output) throws Exception {
+    private void run(String inputCsv, String outputCsv, boolean removeBrackets) throws Exception {
 
         // set up the execution environment
         final ExecutionEnvironment env = ExecutionEnvironment.getExecutionEnvironment();
@@ -29,7 +32,7 @@ public class CreateCompareCsvProcess {
         DataModel dataModel = new DataModel();
 
         //read the csv files into the DataModel
-        dataModel.setConceptAttrDataSet(importer.getConceptAttrDataSetFromCsv(input,env));
+        dataModel.setConceptAttrDataSet(importer.getConceptAttrDataSetFromCsv(inputCsv,env));
 
         DataSet<Tuple2<Integer,String>> cleanIdValueDataSet = dataModel.getConceptAttrDataSet()
                 //Filter only attributes with property name = label
@@ -39,14 +42,15 @@ public class CreateCompareCsvProcess {
                 .map(new MapIdValue())
 
                 //Apply the data cleaner
-                .map(new DataCleaner());;
+                .map(new DataCleaner(removeBrackets));;
 
 
         //Cross it (Cartesian Product) , join ids with values
         DataSet<Tuple4<Integer, String, Integer, String>> comparisonDataSet = LabelMerger.crossJoinMerge(cleanIdValueDataSet);
 
+        String outputFileName = FileNameHelper.getUniqueFilename(outputCsv,".csv");
         //Put it in a csv file.
-        comparisonDataSet.writeAsCsv("file:///" + output,"\n",";");
+        comparisonDataSet.writeAsCsv("file:///" + outputFileName,"\n",";");
 
         env.execute("CreateCompareCsvProcess");
     }
@@ -58,6 +62,10 @@ public class CreateCompareCsvProcess {
      */
     public static void main(ParameterTool parameters) throws Exception {
         CreateCompareCsvProcess cccp = new CreateCompareCsvProcess();
-        cccp.run(parameters.getRequired("inputCsv"),parameters.getRequired("outputCsv"));
+        cccp.run(
+                parameters.getRequired("inputCsv"),
+                parameters.getRequired("outputCsv"),
+                parameters.getBoolean("removeBrackets",false)
+        );
     }
 }

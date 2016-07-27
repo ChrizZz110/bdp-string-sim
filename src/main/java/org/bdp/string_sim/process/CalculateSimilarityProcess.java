@@ -8,6 +8,7 @@ import org.bdp.string_sim.importer.Importer;
 import org.bdp.string_sim.transformation.SortMergeFlatMap;
 import org.bdp.string_sim.transformation.StringCompareMap;
 import org.bdp.string_sim.types.ResultTuple5;
+import org.bdp.string_sim.utilities.FileNameHelper;
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -32,6 +33,7 @@ public class CalculateSimilarityProcess {
     private void run(String[] algorithmArray, String inputCsv, String outputDir, double threshold, int tokenizeDigits) throws Exception {
         // set up the execution environment
         final ExecutionEnvironment env = ExecutionEnvironment.getExecutionEnvironment();
+        String outputFileName;
 
         Importer importer = new Importer();
         DataModel dataModel = new DataModel();
@@ -64,8 +66,12 @@ public class CalculateSimilarityProcess {
                 case "stringCompare":
                     System.out.println("Start similarity algorithm: stringCompare.");
                     //do algo1 and output a csv file to outputDir
-                    DataSet<ResultTuple5> algo1ResultDataSet = dataModel.getCrossedIdLabelDataSet().flatMap(new StringCompareMap(threshold > 0.0));
-                    algo1ResultDataSet.writeAsCsv("file:///" + outputDir + "/algo1Result.csv","\n",";");
+                    DataSet<ResultTuple5> algo1ResultDataSet = dataModel.getCrossedIdLabelDataSet()
+                            .flatMap(new StringCompareMap(threshold > 0.0));
+
+                    outputFileName = FileNameHelper.getUniqueFilename(outputDir + "/algo1Result.csv",".csv");
+                    algo1ResultDataSet.writeAsCsv("file:///" + outputFileName, "\n", ";");
+
                     System.out.println("Finished similarity algorithm: stringCompare.");
                     break;
                 case "stringCompareNgram":
@@ -76,8 +82,12 @@ public class CalculateSimilarityProcess {
                 case "sortMerge":
                     System.out.println("Start similarity algorithm: sortMerge.");
                     //do SortMergeAlgo and output a csv file to outputDir
-                    DataSet<ResultTuple5> sortMergeResultDataSet = dataModel.getCrossedIdLabelDataSet().flatMap(new SortMergeFlatMap(threshold,tokenizeDigits));
-                    sortMergeResultDataSet.writeAsCsv("file:///" + outputDir + "/sortMergeResult.csv","\n",";");
+                    DataSet<ResultTuple5> sortMergeResultDataSet = dataModel.getCrossedIdLabelDataSet()
+                            .flatMap(new SortMergeFlatMap(threshold,tokenizeDigits));
+
+                    outputFileName = FileNameHelper.getUniqueFilename(outputDir + "/sortMergeResult.csv",".csv");
+                    sortMergeResultDataSet.writeAsCsv("file:///" + outputFileName, "\n", ";");
+
                     System.out.println("Finished similarity algorithm: sortMerge.");
                     break;
                 case "simmetrics":

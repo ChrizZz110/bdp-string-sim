@@ -13,11 +13,13 @@ Required parameters:
 * `--process createCompareCsv`
 * `--inputCsv path/to/concept_attribute.csv`
 * `--outputCsv path/to/output.csv`
+* `--removeBrackets [true|false]`
 
 Description:
 * imports the concept_attribute.csv
 * filters only attributes of name 'label'
 * maps id and value, e.g. {1,'label',Leipzig,string} is mapped to {1,Leipzig}
+* Clean up the String: if removeBrackets is set to true, all brackets and their content will be deleted
 * builds the cartesian product with itself
 * builds a strict upper triangular matrix by filtering all tuples where id1 < id2
 * output as csv
