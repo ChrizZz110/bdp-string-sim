@@ -21,6 +21,7 @@ public class CreateCompareCsvProcess {
      * run conversion process
      * @param inputCsv path to concept_attributes.csv
      * @param outputCsv path to output csv
+     * @param removeBrackets true - the DataCleaner removes all brackets including their content; false - don't remove brackets and content
      * @throws Exception
      */
     private void run(String inputCsv, String outputCsv, boolean removeBrackets) throws Exception {
