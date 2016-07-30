@@ -1,4 +1,4 @@
-package org.bdp.string_sim;
+package org.bdp.string_sim.utilities;
 
 import junit.framework.TestCase;
 

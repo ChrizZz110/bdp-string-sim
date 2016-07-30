@@ -3,7 +3,7 @@ package org.bdp.string_sim.transformation;
 import org.apache.flink.api.common.functions.FlatMapFunction;
 import org.apache.flink.api.java.tuple.Tuple4;
 import org.apache.flink.util.Collector;
-import org.bdp.string_sim.Dictionary;
+import org.bdp.string_sim.utilities.Dictionary;
 import org.bdp.string_sim.types.ResultTuple5;
 import org.bdp.string_sim.utilities.Tokenizer;
 
@@ -38,6 +38,14 @@ public class SortMergeFlatMap implements FlatMapFunction<Tuple4<Integer,String,I
         }
     }
 
+    /**
+     * Takes the tuple4 with both strings to compare and calculates a similarity value using sort merge algorithm.
+     * For every comparison a new dictionary will be created.
+     *
+     * @param input the tuple4 with the entities to compare
+     * @param collector collects the result tuple5
+     * @throws Exception
+     */
     @Override
     public void flatMap(Tuple4<Integer, String, Integer, String> input, Collector<ResultTuple5> collector) throws Exception {
         Tokenizer tokenizer = new Tokenizer(nGramDigits);

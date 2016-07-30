@@ -3,6 +3,7 @@ package org.bdp.string_sim.transformation;
 import org.apache.flink.api.common.functions.FlatMapFunction;
 import org.apache.flink.api.java.tuple.Tuple4;
 import org.apache.flink.util.Collector;
+import org.bdp.string_sim.types.IdLabelCompareTuple4;
 import org.bdp.string_sim.types.ResultTuple5;
 
 
@@ -34,7 +35,7 @@ public class StringCompareMap implements FlatMapFunction<Tuple4<Integer,String,I
      * @throws Exception
      */
     @Override
-    public void flatMap(Tuple4<Integer, String, Integer, String> input, Collector<ResultTuple5> collector) throws Exception {
+    public void flatMap(Tuple4<Integer,String,Integer,String> input, Collector<ResultTuple5> collector) throws Exception {
         float similarity = 0;
         if(input.getField(1).equals(input.getField(3)))
         {

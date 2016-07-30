@@ -29,11 +29,10 @@ Required parameters:
 * `--process calculateSimilarity`
 * `--inputCsv path/to/crossMerged.csv`
 * `--outputDir path/to/output/directory`
-
-Optional parameters:
-* `--algorithms stringCompare,stringCompareNgram,sortMerge,simmetrics`
+* `--algorithms stringCompare,stringCompareNgram,flinkSortMerge,sortMerge,simmetrics`
 To calculate the string similarity there are 4 different algorithms/techniques. This parameter controls which algorithm(s) will be used. By default, all will be executed.
 
+Optional parameters:
 * `--threshold X.XX`
 Only tuples with a dice similarity >= X.XX will be collected in the result dataset
 
