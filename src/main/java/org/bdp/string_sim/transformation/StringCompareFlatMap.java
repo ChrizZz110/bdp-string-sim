@@ -6,18 +6,18 @@ import org.apache.flink.util.Collector;
 import org.bdp.string_sim.types.ResultTuple5;
 
 
-public class StringCompareMap implements FlatMapFunction<Tuple4<Integer,String,Integer,String>,ResultTuple5> {
+public class StringCompareFlatMap implements FlatMapFunction<Tuple4<Integer,String,Integer,String>,ResultTuple5> {
 
     private boolean collectOnlyMatchingStrings = false;
 
-    public StringCompareMap() {
+    public StringCompareFlatMap() {
     }
 
     /**
-     * Constructor creates an StringCompareMap instance.
+     * Constructor creates an StringCompareFlatMap instance.
      * @param collectOnlyMatchingStrings true if only matching strings should collected in the result, false collects all results
      */
-    public StringCompareMap(boolean collectOnlyMatchingStrings) {
+    public StringCompareFlatMap(boolean collectOnlyMatchingStrings) {
         this.collectOnlyMatchingStrings = collectOnlyMatchingStrings;
     }
 

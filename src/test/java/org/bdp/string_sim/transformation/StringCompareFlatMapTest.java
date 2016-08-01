@@ -8,7 +8,7 @@ import org.bdp.string_sim.types.ResultTuple5;
 
 import java.util.List;
 
-public class StringCompareMapTest extends TestCase {
+public class StringCompareFlatMapTest extends TestCase {
     private ExecutionEnvironment environment;
 
     public void setUp() throws Exception {
@@ -27,7 +27,7 @@ public class StringCompareMapTest extends TestCase {
                 new Tuple4<Integer, String, Integer, String>(7, "garteN", 4, "garteN")
         );
 
-        List<ResultTuple5> list = dataSet.flatMap(new StringCompareMap()).collect();
+        List<ResultTuple5> list = dataSet.flatMap(new StringCompareFlatMap()).collect();
 
         assertTrue(list.size() == 7);
 
@@ -40,7 +40,7 @@ public class StringCompareMapTest extends TestCase {
             }
         }
 
-        list = dataSet.flatMap(new StringCompareMap(true)).collect();
+        list = dataSet.flatMap(new StringCompareFlatMap(true)).collect();
 
         assertTrue(list.size() == 2);
 

@@ -4,8 +4,8 @@ import org.apache.flink.api.java.DataSet;
 import org.apache.flink.api.java.ExecutionEnvironment;
 import org.bdp.string_sim.DataModel;
 import org.bdp.string_sim.importer.Importer;
-import org.bdp.string_sim.transformation.StringCompareMap;
-import org.bdp.string_sim.transformation.StringCompareTrigram;
+import org.bdp.string_sim.transformation.StringCompareFlatMap;
+import org.bdp.string_sim.transformation.StringCompareTrigramFlatMap;
 import org.bdp.string_sim.types.ResultTuple5;
 
 import java.io.File;
@@ -56,11 +56,11 @@ public class CalculateSimilarityProcess {
         );
 
         //do algo1 and output a csv file to outputDir
-        DataSet<ResultTuple5> algo1ResultDataSet = dataModel.getCrossedIdLabelDataSet().flatMap(new StringCompareMap(false));
+        DataSet<ResultTuple5> algo1ResultDataSet = dataModel.getCrossedIdLabelDataSet().flatMap(new StringCompareFlatMap(false));
         algo1ResultDataSet.writeAsCsv("file:///" + outputDir + "/algo1Result.csv","\n",";");
 
         //do algo2 and output a csv file to outputDir
-        DataSet<ResultTuple5> algo2ResultDataSet = dataModel.getCrossedIdLabelDataSet().flatMap(new StringCompareTrigram());
+        DataSet<ResultTuple5> algo2ResultDataSet = dataModel.getCrossedIdLabelDataSet().flatMap(new StringCompareTrigramFlatMap());
         algo2ResultDataSet.writeAsCsv("file:///" + outputDir + "/algo2Result.csv","\n",";");
 
         //do algo3 and output a csv file to outputDir
