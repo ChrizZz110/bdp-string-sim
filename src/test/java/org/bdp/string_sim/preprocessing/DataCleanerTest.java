@@ -39,21 +39,20 @@ public class DataCleanerTest extends TestCase {
     	assertTrue(CleanedTestDataSetFalse.count() == 17);
     	List<Tuple2<Integer, String>> collectListTrue = CleanedTestDataSetTrue.collect();
     	List<Tuple2<Integer, String>> collectListFalse = CleanedTestDataSetFalse.collect();
-    	
+
     	//test Mode true - eliminate brackets&content + content after comma
-        for(Tuple2<Integer, String> tuple : collectListTrue) {	
+        for(Tuple2<Integer, String> tuple : collectListTrue) {
         	if ((Integer)tuple.getField(0) >= 0 && (Integer)tuple.getField(0) <= 11) {
         		assertEquals((String)"dresden",(String)tuple.getField(1));
         	}
-        	System.out.println((String)tuple.getField(1));
         }
-        
+
         //test Mode false - leave brackets and content after comma (comma character will still be eliminated)
         for(Tuple2<Integer, String> tuple : collectListFalse) {
         	if ((Integer)tuple.getField(0) >= 12 && (Integer)tuple.getField(0) <= 14) {
         		assertEquals((String)"dresden(sachsen)",(String)tuple.getField(1));
         	}
-        	
+
         	if ((Integer)tuple.getField(0) >= 15 && (Integer)tuple.getField(0) <= 17) {
         		assertEquals((String)"dresdensachsen",(String)tuple.getField(1));
         	}

@@ -39,6 +39,13 @@
             <version>3.8.2</version>
             <scope>test</scope>
         </dependency>
+        <!-- https://mvnrepository.com/artifact/com.github.mpkorstanje/simmetrics -->
+        <dependency>
+            <groupId>com.github.mpkorstanje</groupId>
+            <artifactId>simmetrics-core</artifactId>
+            <version>4.1.0</version>
+        </dependency>
+
     </dependencies>
 
     <profiles>
