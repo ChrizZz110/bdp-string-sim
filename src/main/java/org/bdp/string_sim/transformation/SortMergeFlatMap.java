@@ -5,6 +5,7 @@ import org.apache.flink.api.java.tuple.Tuple4;
 import org.apache.flink.util.Collector;
 import org.bdp.string_sim.Dictionary;
 import org.bdp.string_sim.types.ResultTuple5;
+import org.bdp.string_sim.utilities.DiceMetric;
 import org.bdp.string_sim.utilities.Tokenizer;
 
 import java.util.ArrayList;
@@ -76,7 +77,7 @@ public class SortMergeFlatMap implements FlatMapFunction<Tuple4<Integer,String,I
             }
         }
 
-        diceSim = (float) 2 * overlap / (lengthA+lengthB);
+        diceSim = DiceMetric.calculate(lengthA,lengthB,overlap);
 
         if(diceSim >= threshold){
             collector.collect(new ResultTuple5(
