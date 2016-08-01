@@ -26,7 +26,7 @@ public class StringCompareTrigramFlatMapTest extends TestCase {
                 new Tuple4<Integer, String, Integer, String>(4, "dresden", 4, "leipzig")
         );
 
-        List<ResultTuple5> list = dataSet.flatMap(new StringCompareTrigramFlatMap((float)0.0,3)).collect();
+        List<ResultTuple5> list = dataSet.flatMap(new StringCompareTrigramFlatMap()).collect();
         
         assertTrue(list.size() == 5);
         
@@ -40,7 +40,7 @@ public class StringCompareTrigramFlatMapTest extends TestCase {
         	assertTrue((float)set.getField(4) >= 0.0 && (float)set.getField(4) <= 1.0);
         }
         
-        list = dataSet.flatMap(new StringCompareTrigramFlatMap()).collect();
+        list = dataSet.flatMap(new StringCompareTrigramFlatMap(0.7,3)).collect();
         
         assertTrue(list.size() == 2);
         
