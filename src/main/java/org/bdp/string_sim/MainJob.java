@@ -4,6 +4,7 @@ import org.apache.flink.api.java.DataSet;
 import org.apache.flink.api.java.ExecutionEnvironment;
 import org.apache.flink.api.java.tuple.Tuple2;
 import org.apache.flink.api.java.tuple.Tuple4;
+import org.apache.flink.api.java.utils.ParameterTool;
 import org.bdp.string_sim.importer.Importer;
 import org.bdp.string_sim.preprocessing.DataCleaner;
 import org.bdp.string_sim.process.CalculateSimilarityProcess;
@@ -13,35 +14,35 @@ import org.bdp.string_sim.transformation.MapIdValue;
 import org.bdp.string_sim.utilities.DiceMetric;
 import org.bdp.string_sim.utilities.Tokenizer;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-
 public class MainJob {
 
-    public static void main(String[] args) throws Exception {
-        if(args.length < 1){
+    public static void main(String[] args) throws Exception
+    {
+        ParameterTool parameters = ParameterTool.fromArgs(args);
+
+        if(parameters.getNumberOfParameters() < 1){
             printSyntaxDocumentation();
             return;
         }
 
-        switch (args[0]){
+        switch (parameters.get("process", "none")){
             case "createCompareCsv":
                 try {
-                    CreateCompareCsvProcess.main(Arrays.copyOfRange(args, 1,args.length));
+                    CreateCompareCsvProcess.main(parameters);
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
                 break;
             case "calculateSimilarity":
                 try {
-                    CalculateSimilarityProcess.main(Arrays.copyOfRange(args, 1,args.length));
+                    CalculateSimilarityProcess.main(parameters);
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
                 break;
             case "default":
                 try {
-                    runDefault(Arrays.copyOfRange(args, 1,args.length));
+                    runDefault(parameters);
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
@@ -51,7 +52,7 @@ public class MainJob {
         }
     }
 
-    private static void runDefault(String[] args) throws Exception
+    private static void runDefault(ParameterTool parameters) throws Exception
     {
         // set up the execution environment
         final ExecutionEnvironment env = ExecutionEnvironment.getExecutionEnvironment();
@@ -60,46 +61,40 @@ public class MainJob {
         DataModel dataModel = new DataModel();
 
         //read the csv files into the DataModel
-        dataModel.setConceptAttrDataSet(importer.getConceptAttrDataSetFromCsv(args[0],env));
+        dataModel.setConceptAttrDataSet(importer.getConceptAttrDataSetFromCsv(parameters.getRequired("inputCsv"),env));
 
         //Filter only attributes with property name = label
         DataSet<Tuple4<Integer, String, String, String>> filteredDataSet = dataModel.getConceptAttrDataSet().filter(new LabelFilter());
 
         //Map get only the id and property value of the entity
         DataSet<Tuple2<Integer,String>> idValueDataSet= filteredDataSet.map(new MapIdValue());
-        
+
         //clean data of property value
-        //DataSet<Tuple2<Integer,String>> cleanDataSet = idValueDataSet.map(new DataCleaner(true));
-        
+        DataSet<Tuple2<Integer,String>> cleanDataSet = idValueDataSet.map(new DataCleaner(true));
+
+        cleanDataSet.print();
+
         //test Tokenizer/Dictionary
         String testString = "Tokenizer";
         String testString2 = "StringValue";
-//        
-//        Tokenizer tok = new Tokenizer(4);
-//        Dictionary dic = new Dictionary();
-//        
-//        dic.add(tok.tokenize(testString));
-//        dic.add(tok.tokenize(testString2));
-//        System.out.println(dic.getDictionary());
-        System.out.println(DiceMetric.calculate(testString.length(), testString2.length(), 9));
-        System.out.println(testString.length());
-        System.out.println(testString2.length());
+
+        Tokenizer tok = new Tokenizer(4);
+        Dictionary dic = new Dictionary();
+
+        dic.add(tok.tokenize(testString));
+        dic.add(tok.tokenize(testString2));
+        System.out.println(dic.getDictionary());
     }
 
     private static void printSyntaxDocumentation()
     {
-        System.out.println("Please use the following syntax:\n"
-                +"batch_process_name arg1 arg2 ...\n"
-                +"the following processes are available:\n"
-                +"\tcreateCompareCsv \n"
-                +"\t\tcreates a csv with all attributes to compare including their ids\n"
-                +"\t\targuments: path/to/concept_attribute.csv path/to/output.csv\n"
-                +"\n\tcalculateSimilarity \n"
-                +"\t\tcalculates a similarity value of each entity tuple in the input csv file\n"
-                +"\t\targuments: path/to/cleanAndMergedIdLabels.csv path/to/output/directory\n"
-                +"\n\tdefault \n"
-                +"\t\timports the concept_attribute.csv, filters only label attributes, maps id and value and prints it out\n"
-                +"\t\targuments: path/to/concept_attribute.csv \n"
+        System.out.println("Please use the syntax given in the gitHub description: https://github.com/ChrizZz110/bdp-string-sim \n" +
+                "Examples:\n" +
+                "\t--process default --inputCsv path/to/concept_attribute.csv\n\n" +
+                "\t--process createCompareCsv --inputCsv path/to/concept_attribute.csv --outputCsv path/to/output.csv\n\n" +
+                "\t--process calculateSimilarity --inputCsv path/to/crossMerged.csv " +
+                "--outputDir path/to/output/directory --algorithms stringCompare,stringCompareNgram,sortMerge,simmetrics" +
+                "--threshold 0.6 --tokenizeDigits 2\n"
         );
     }
 }

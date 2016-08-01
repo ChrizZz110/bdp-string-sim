@@ -25,7 +25,7 @@ public class Tokenizer {
 	public ArrayList<String> tokenize(String value) throws Exception {
 		ArrayList<String> tokens = new ArrayList<String>();
 		
-		if (!value.isEmpty()) {	
+		if (!value.isEmpty()) {
 			//generate placeholder characters around value, according to property nGramDigits
 			String placeholder = (new String(new char[nGramDigits-1]).replace('\0','#'));
 			String placeholderValue = placeholder + value + placeholder;
