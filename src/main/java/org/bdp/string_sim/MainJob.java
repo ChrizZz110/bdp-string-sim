@@ -11,6 +11,7 @@ import org.bdp.string_sim.process.CalculateSimilarityProcess;
 import org.bdp.string_sim.process.CreateCompareCsvProcess;
 import org.bdp.string_sim.transformation.LabelFilter;
 import org.bdp.string_sim.transformation.MapIdValue;
+import org.bdp.string_sim.utilities.DiceMetric;
 import org.bdp.string_sim.utilities.Dictionary;
 import org.bdp.string_sim.utilities.Tokenizer;
 

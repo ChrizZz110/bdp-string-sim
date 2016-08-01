@@ -18,7 +18,7 @@ public class TokenizerTest extends TestCase {
     	Tokenizer tokenizerDefault = new Tokenizer();
     	Tokenizer tokenizerCustom = new Tokenizer(1);
     	
-    	// test number of tokens
+    	// test correct number of tokens
     	assertTrue(tokenizerDefault.tokenize(testData.get(0)).size() == 11);
     	assertTrue(tokenizerDefault.tokenize(testData.get(1)).size() == 5);
     	assertTrue(tokenizerDefault.tokenize(testData.get(2)).size() == 0);

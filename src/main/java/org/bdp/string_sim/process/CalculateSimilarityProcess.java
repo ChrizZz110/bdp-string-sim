@@ -11,6 +11,9 @@ import org.bdp.string_sim.DataModel;
 import org.bdp.string_sim.importer.Importer;
 import org.bdp.string_sim.transformation.*;
 import org.bdp.string_sim.types.IdTokenizedLabelTuple4;
+import org.bdp.string_sim.transformation.SortMergeFlatMap;
+import org.bdp.string_sim.transformation.StringCompareFlatMap;
+import org.bdp.string_sim.transformation.StringCompareTrigramFlatMap;
 import org.bdp.string_sim.types.ResultTuple5;
 import org.bdp.string_sim.utilities.FileNameHelper;
 import org.bdp.string_sim.utilities.FlinkDictionary;
@@ -79,8 +82,16 @@ public class CalculateSimilarityProcess {
 
                     break;
                 case "stringCompareNgram":
+                    System.out.println("Start similarity algorithm: stringCompareNgram.");
+                    //do algo1 and output a csv file to outputDir
+                    DataSet<ResultTuple5> algo2ResultDataSet = dataModel.getCrossedIdLabelDataSet()
+                            .flatMap(new StringCompareTrigramFlatMap(threshold, tokenizeDigits));
 
                     runStringCompareNgram();
+                    outputFileName = FileNameHelper.getUniqueFilename(outputDir + "/algo2Result.csv",".csv");
+                    algo2ResultDataSet.writeAsCsv("file:///" + outputFileName, "\n", ";");
+
+                    System.out.println("Finished similarity algorithm: stringCompareNgram.");
 
                     break;
                 case "sortMerge":
