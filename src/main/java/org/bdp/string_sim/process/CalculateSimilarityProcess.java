@@ -82,16 +82,7 @@ public class CalculateSimilarityProcess {
 
                     break;
                 case "stringCompareNgram":
-                    System.out.println("Start similarity algorithm: stringCompareNgram.");
-                    //do algo1 and output a csv file to outputDir
-                    DataSet<ResultTuple5> algo2ResultDataSet = dataModel.getCrossedIdLabelDataSet()
-                            .flatMap(new StringCompareTrigramFlatMap(threshold, tokenizeDigits));
-
                     runStringCompareNgram();
-                    outputFileName = FileNameHelper.getUniqueFilename(outputDir + "/algo2Result.csv",".csv");
-                    algo2ResultDataSet.writeAsCsv("file:///" + outputFileName, "\n", ";");
-
-                    System.out.println("Finished similarity algorithm: stringCompareNgram.");
 
                     break;
                 case "sortMerge":
@@ -143,7 +134,7 @@ public class CalculateSimilarityProcess {
         System.out.println("Start similarity algorithm: stringCompare.");
         //do algo1 and output a csv file to outputDir
         DataSet<ResultTuple5> algo1ResultDataSet = dataModel.getCrossedIdLabelDataSet()
-                .flatMap(new StringCompareMap(this.threshold > 0.0));
+                .flatMap(new StringCompareFlatMap(this.threshold > 0.0));
 
         String outputFileName = FileNameHelper.getUniqueFilename(outputDir + "/algo1Result.csv",".csv");
         algo1ResultDataSet.writeAsCsv("file:///" + outputFileName, "\n", ";");
@@ -156,7 +147,15 @@ public class CalculateSimilarityProcess {
      */
     private void runStringCompareNgram()
     {
-        //TODO: Put ngram transformation here
+        System.out.println("Start similarity algorithm: stringCompareNgram.");
+        //do algo1 and output a csv file to outputDir
+        DataSet<ResultTuple5> algo2ResultDataSet = dataModel.getCrossedIdLabelDataSet()
+                .flatMap(new StringCompareTrigramFlatMap(threshold, tokenizeDigits));
+
+        String outputFileName = FileNameHelper.getUniqueFilename(outputDir + "/algo2Result.csv",".csv");
+        algo2ResultDataSet.writeAsCsv("file:///" + outputFileName, "\n", ";");
+
+        System.out.println("Finished similarity algorithm: stringCompareNgram.");
     }
 
     /**
