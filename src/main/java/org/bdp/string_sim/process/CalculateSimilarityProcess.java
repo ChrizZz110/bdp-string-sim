@@ -248,6 +248,14 @@ public class CalculateSimilarityProcess {
      */
     private void runSimmetrics()
     {
-        //TODO: Put simmetrics transformation here
+        System.out.println("Start similarity algorithm: simmetrics.");
+
+        DataSet<ResultTuple5> simmetricsResultDataSet = dataModel.getCrossedIdLabelDataSet()
+                .flatMap(new SimmetricsFlatMap(threshold,tokenizeDigits));
+
+        String outputFileName = FileNameHelper.getUniqueFilename(outputDir + "/simmetricsResult.csv",".csv");
+        simmetricsResultDataSet.writeAsCsv("file:///" + outputFileName, "\n", ";");
+
+        System.out.println("Finished similarity algorithm: simmetrics.");
     }
 }
