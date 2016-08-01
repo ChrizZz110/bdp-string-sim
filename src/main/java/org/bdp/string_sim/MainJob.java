@@ -94,7 +94,7 @@ public class MainJob {
                 "\t--process default --inputCsv path/to/concept_attribute.csv\n\n" +
                 "\t--process createCompareCsv --inputCsv path/to/concept_attribute.csv --outputCsv path/to/output.csv\n\n" +
                 "\t--process calculateSimilarity --inputCsv path/to/crossMerged.csv " +
-                "--outputDir path/to/output/directory --algorithms stringCompare,stringCompareNgram,sortMerge,simmetrics" +
+                "--outputDir path/to/output/directory --algorithms stringCompare,stringCompareNgram,flinkSortMerge,sortMerge,simmetrics" +
                 "--threshold 0.6 --tokenizeDigits 2\n"
         );
     }

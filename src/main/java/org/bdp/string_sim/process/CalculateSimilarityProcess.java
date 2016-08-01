@@ -136,7 +136,7 @@ public class CalculateSimilarityProcess {
         DataSet<ResultTuple5> algo1ResultDataSet = dataModel.getCrossedIdLabelDataSet()
                 .flatMap(new StringCompareFlatMap(this.threshold > 0.0));
 
-        String outputFileName = FileNameHelper.getUniqueFilename(outputDir + "/algo1Result.csv",".csv");
+        String outputFileName = FileNameHelper.getUniqueFilename(outputDir + "/stringCompareResult.csv",".csv");
         algo1ResultDataSet.writeAsCsv("file:///" + outputFileName, "\n", ";");
 
         System.out.println("Finished similarity algorithm: stringCompare.");
@@ -152,7 +152,7 @@ public class CalculateSimilarityProcess {
         DataSet<ResultTuple5> algo2ResultDataSet = dataModel.getCrossedIdLabelDataSet()
                 .flatMap(new StringCompareTrigramFlatMap(threshold, tokenizeDigits));
 
-        String outputFileName = FileNameHelper.getUniqueFilename(outputDir + "/algo2Result.csv",".csv");
+        String outputFileName = FileNameHelper.getUniqueFilename(outputDir + "/stringCompareNgramResult.csv",".csv");
         algo2ResultDataSet.writeAsCsv("file:///" + outputFileName, "\n", ";");
 
         System.out.println("Finished similarity algorithm: stringCompareNgram.");
@@ -178,7 +178,7 @@ public class CalculateSimilarityProcess {
      */
     private void runFlinkSortMerge()
     {
-        System.out.println("Start similarity algorithm: sortMerge.");
+        System.out.println("Start similarity algorithm: flinkSortMerge.");
         //do SortMergeAlgo and output a csv file to outputDir
 
         FlinkDictionary dictionary = new FlinkDictionary();
