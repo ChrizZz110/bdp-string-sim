@@ -6,7 +6,6 @@ import org.apache.flink.api.java.utils.ParameterTool;
 import org.bdp.string_sim.DataModel;
 import org.bdp.string_sim.importer.Importer;
 import org.bdp.string_sim.transformation.SortMergeFlatMap;
-import org.bdp.string_sim.transformation.StringCompareMap;
 import org.bdp.string_sim.transformation.StringCompareFlatMap;
 import org.bdp.string_sim.transformation.StringCompareTrigramFlatMap;
 import org.bdp.string_sim.types.ResultTuple5;
@@ -69,7 +68,7 @@ public class CalculateSimilarityProcess {
                     System.out.println("Start similarity algorithm: stringCompare.");
                     //do algo1 and output a csv file to outputDir
                     DataSet<ResultTuple5> algo1ResultDataSet = dataModel.getCrossedIdLabelDataSet()
-                            .flatMap(new StringCompareMap(threshold > 0.0));
+                            .flatMap(new StringCompareFlatMap(threshold > 0.0));
 
                     outputFileName = FileNameHelper.getUniqueFilename(outputDir + "/algo1Result.csv",".csv");
                     algo1ResultDataSet.writeAsCsv("file:///" + outputFileName, "\n", ";");
@@ -77,8 +76,15 @@ public class CalculateSimilarityProcess {
                     System.out.println("Finished similarity algorithm: stringCompare.");
                     break;
                 case "stringCompareNgram":
+                    System.out.println("Start similarity algorithm: stringCompareNgram.");
+                    //do algo1 and output a csv file to outputDir
+                    DataSet<ResultTuple5> algo2ResultDataSet = dataModel.getCrossedIdLabelDataSet()
+                            .flatMap(new StringCompareTrigramFlatMap(threshold, tokenizeDigits));
 
-                    //TODO: Put ngram transformation here
+                    outputFileName = FileNameHelper.getUniqueFilename(outputDir + "/algo2Result.csv",".csv");
+                    algo2ResultDataSet.writeAsCsv("file:///" + outputFileName, "\n", ";");
+
+                    System.out.println("Finished similarity algorithm: stringCompareNgram.");
 
                     break;
                 case "sortMerge":

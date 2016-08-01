@@ -12,7 +12,7 @@ import org.bdp.string_sim.utilities.Tokenizer;
 
 public class StringCompareTrigramFlatMap implements FlatMapFunction<Tuple4<Integer,String,Integer,String>,ResultTuple5> {
 
-    private float thresholdMatch = (float)0.7;
+    private double thresholdMatch = (float)0.7;
 	private int nGramSize = 3;
 
     public StringCompareTrigramFlatMap() {
@@ -22,7 +22,7 @@ public class StringCompareTrigramFlatMap implements FlatMapFunction<Tuple4<Integ
      * This constructor creates an StringCompareTrigramFlatMap instance.
      * @param thresholdMatch only collects matches equal or above this threshold. threshold must be between 0.0 and 1.0.
      */
-    public StringCompareTrigramFlatMap(float thresholdMatch, int nGramSize) {
+    public StringCompareTrigramFlatMap(double thresholdMatch, int nGramSize) {
     	if (thresholdMatch >= 0.0 && thresholdMatch <= 1.0) {
     		this.thresholdMatch = thresholdMatch;
     	}
