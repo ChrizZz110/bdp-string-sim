@@ -7,7 +7,6 @@ public class DiceMetric {
      * @param numberTokensB number of tokens for string B
      * @param match number of matching tokens between string A and string B 
      * @return calculated metric of type float
-     * @throws Exception
      */
 	public static float calculate(int numberTokensA, int numberTokensB, int match) {
 		return (2*(float)match) / (numberTokensA+numberTokensB);

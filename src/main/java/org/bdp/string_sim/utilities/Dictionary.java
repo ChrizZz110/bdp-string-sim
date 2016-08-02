@@ -1,14 +1,17 @@
 package org.bdp.string_sim.utilities;
 
+import org.apache.flink.api.java.tuple.Tuple2;
 import org.bdp.string_sim.exception.NotFoundInDictionaryException;
 
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collection;
 import java.util.TreeMap;
 
 public class Dictionary {
 
-    private final TreeMap<String,Integer> dictionary;
-    private int dictionaryPointer = 0;
+    private final TreeMap<String,Long> dictionary;
+    private long dictionaryPointer = 0;
 
     public Dictionary(){
         this.dictionary = new TreeMap<>();
@@ -19,7 +22,7 @@ public class Dictionary {
      * @param addString the n-gram to add to dictionary
      * @return the index of this n-gram
      */
-    public int add(String addString) {
+    public long add(String addString) {
         if(dictionary.containsKey(addString))
         {
             return dictionary.get(addString);
@@ -43,12 +46,22 @@ public class Dictionary {
         }
     }
 
+    public void add(Collection<Tuple2<Long,String>> flinkDictionary)
+    {
+        for(Tuple2<Long,String> flinkDicEntry : flinkDictionary){
+            if(!dictionary.containsKey(flinkDicEntry.getField(1)))
+            {
+                this.dictionary.put(flinkDicEntry.getField(1),flinkDicEntry.getField(0));
+            }
+        }
+    }
+
     /**
      * Gett for dictionary
      *
      * @return the dictionary: key = n-gram; value = index
      */
-    public TreeMap<String, Integer> getDictionary() {
+    public TreeMap<String, Long> getDictionary() {
         return dictionary;
     }
 
@@ -59,7 +72,7 @@ public class Dictionary {
      * @return the index as int
      * @throws NotFoundInDictionaryException if the n-gram was never added to th dictionary
      */
-    public int getIndex(String nGram) throws NotFoundInDictionaryException{
+    public long getIndex(String nGram) throws NotFoundInDictionaryException{
         if(dictionary.containsKey(nGram)) {
             return dictionary.get(nGram);
         }else {
@@ -74,11 +87,20 @@ public class Dictionary {
      * @return the corresponding list of indexes
      * @throws NotFoundInDictionaryException if one of the n-gram was never added to th dictionary
      */
-    public ArrayList<Integer> getIndexListForNGrams(ArrayList<String> tokenizedList) throws NotFoundInDictionaryException{
-        ArrayList<Integer> indexedList = new ArrayList<>();
+    public ArrayList<Long> getIndexListForNGrams(ArrayList<String> tokenizedList) throws NotFoundInDictionaryException{
+        ArrayList<Long> indexedList = new ArrayList<>();
         for(String nGram : tokenizedList){
             indexedList.add(getIndex(nGram));
         }
+        return indexedList;
+    }
+
+    public Long[] getSortedIndexArrayForNGrams(String[] tokenizedList) throws NotFoundInDictionaryException{
+        Long[] indexedList = new Long[tokenizedList.length];
+        for(int i = 0 ; i < tokenizedList.length ; i++){
+            indexedList[i] = getIndex(tokenizedList[i]);
+        }
+        Arrays.sort(indexedList);
         return indexedList;
     }
 }

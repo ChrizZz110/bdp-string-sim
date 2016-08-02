@@ -5,7 +5,7 @@ import org.apache.flink.api.java.DataSet;
 import org.apache.flink.api.java.ExecutionEnvironment;
 import org.apache.flink.api.java.tuple.Tuple4;
 import org.bdp.string_sim.types.IdLabelCompareTuple4;
-import org.bdp.string_sim.types.IdTokenizedLabelTuple4;
+import org.bdp.string_sim.types.IdTokenizedLabelTuple6;
 
 import java.util.List;
 
@@ -28,19 +28,19 @@ public class TokenizeMapTest extends TestCase {
                 new IdLabelCompareTuple4(7, "gartem", 4, "garten")
         );
 
-        DataSet<IdTokenizedLabelTuple4> tokenizedDataset = dataSet.map(new TokenizeMap(3));
+        DataSet<IdTokenizedLabelTuple6> tokenizedDataset = dataSet.map(new TokenizeMap(3));
 
-        List<IdTokenizedLabelTuple4> collect = tokenizedDataset.collect();
+        List<IdTokenizedLabelTuple6> collect = tokenizedDataset.collect();
 
-        for (IdTokenizedLabelTuple4 tokenizedTuple : collect)
+        for (IdTokenizedLabelTuple6 tokenizedTuple : collect)
         {
             if ((int) tokenizedTuple.getField(0) == 1)
             {
-                String[] tokensA = tokenizedTuple.getField(1);
+                String[] tokensA = tokenizedTuple.getField(2);
 
                 assertEquals(6,tokensA.length);
 
-                String[] tokensB = tokenizedTuple.getField(3);
+                String[] tokensB = tokenizedTuple.getField(5);
 
                 assertEquals(8,tokensB.length);
             }

@@ -7,7 +7,6 @@ import org.bdp.string_sim.types.ResultTuple5;
 import org.simmetrics.StringMetric;
 import org.simmetrics.builders.StringMetricBuilder;
 import org.simmetrics.metrics.BlockDistance;
-import org.simmetrics.metrics.StringMetrics;
 import org.simmetrics.tokenizers.Tokenizers;
 
 public class SimmetricsFlatMap implements FlatMapFunction<Tuple4<Integer, String, Integer, String>, ResultTuple5> {

@@ -58,12 +58,12 @@ public class DictionaryTest extends TestCase {
 
         tokenizedNGramList.forEach(dictionary::add);
 
-        ArrayList<Integer> indexedList = dictionary.getIndexListForNGrams(tokenizedNGramList);
+        ArrayList<Long> indexedList = dictionary.getIndexListForNGrams(tokenizedNGramList);
 
         assertTrue(indexedList.size() == tokenizedNGramList.size());
 
         for(int i = 0 ; i < indexedList.size() ; i++){
-            assertEquals(dictionary.getIndex(tokenizedNGramList.get(i)),(int)indexedList.get(i));
+            assertEquals(dictionary.getIndex(tokenizedNGramList.get(i)),(long)indexedList.get(i));
         }
     }
 

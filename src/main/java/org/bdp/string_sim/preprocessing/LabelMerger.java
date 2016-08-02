@@ -1,7 +1,6 @@
 package org.bdp.string_sim.preprocessing;
 
 import org.apache.flink.api.common.functions.MapFunction;
-import org.apache.flink.api.common.typeinfo.TypeInformation;
 import org.apache.flink.api.java.DataSet;
 import org.apache.flink.api.java.tuple.Tuple2;
 import org.apache.flink.api.java.tuple.Tuple3;
@@ -38,7 +37,7 @@ public class LabelMerger {
 
         DataSet<Tuple2<Tuple3<Integer, String, Integer>, Tuple2<Integer, String>>> joined2 = mapped.join(conAttrIdsDataSet).where(2).equalTo(0);
 
-        DataSet<Tuple4<Integer,String,Integer,String>> result = joined2.map(new MapFunction<Tuple2<Tuple3<Integer,String,Integer>,Tuple2<Integer,String>>, Tuple4<Integer,String,Integer,String>>() {
+        return joined2.map(new MapFunction<Tuple2<Tuple3<Integer,String,Integer>,Tuple2<Integer,String>>, Tuple4<Integer,String,Integer,String>>() {
             @Override
             public Tuple4<Integer, String, Integer, String> map(Tuple2<Tuple3<Integer, String, Integer>, Tuple2<Integer, String>> tuple3Tuple2Tuple2) throws Exception {
                 Tuple3<Integer, String, Integer> integerStringIntegerTuple3 = tuple3Tuple2Tuple2.getField(0);
@@ -52,6 +51,5 @@ public class LabelMerger {
                 );
             }
         });
-        return result;
     }
 }

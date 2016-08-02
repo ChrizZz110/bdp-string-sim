@@ -58,8 +58,8 @@ public class SortMergeFlatMap implements FlatMapFunction<Tuple4<Integer,String,I
         dictionary.add(tokenizedStringA);
         dictionary.add(tokenizedStringB);
 
-        ArrayList<Integer> intArrayA = dictionary.getIndexListForNGrams(tokenizedStringA);
-        ArrayList<Integer> intArrayB = dictionary.getIndexListForNGrams(tokenizedStringB);
+        ArrayList<Long> intArrayA = dictionary.getIndexListForNGrams(tokenizedStringA);
+        ArrayList<Long> intArrayB = dictionary.getIndexListForNGrams(tokenizedStringB);
 
         Collections.sort(intArrayA);
         Collections.sort(intArrayB);
@@ -74,7 +74,7 @@ public class SortMergeFlatMap implements FlatMapFunction<Tuple4<Integer,String,I
 
         while ((left < lengthA) && (right < lengthB))
         {
-            if((int) intArrayA.get(left) == (int) intArrayB.get(right)){
+            if(intArrayA.get(left) == intArrayB.get(right)){
                 overlap++;
                 left++;
                 right++;

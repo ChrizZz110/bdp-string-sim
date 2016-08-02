@@ -32,7 +32,7 @@ public class Tokenizer {
 			
 			//tokenize
 			for (int i=0; i<placeholderValue.length()+1-nGramDigits; i++) {
-				tokens.add(new String (placeholderValue.substring(0+i, nGramDigits+i)));
+				tokens.add(placeholderValue.substring(i, nGramDigits + i));
 			}
 		}
 		return tokens;

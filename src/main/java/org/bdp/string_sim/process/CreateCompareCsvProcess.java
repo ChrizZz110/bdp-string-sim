@@ -13,8 +13,6 @@ import org.bdp.string_sim.transformation.LabelFilter;
 import org.bdp.string_sim.transformation.MapIdValue;
 import org.bdp.string_sim.utilities.FileNameHelper;
 
-import java.io.File;
-
 public class CreateCompareCsvProcess {
 
     /**
@@ -43,7 +41,7 @@ public class CreateCompareCsvProcess {
                 .map(new MapIdValue())
 
                 //Apply the data cleaner
-                .map(new DataCleaner(removeBrackets));;
+                .map(new DataCleaner(removeBrackets));
 
 
         //Cross it (Cartesian Product) , join ids with values

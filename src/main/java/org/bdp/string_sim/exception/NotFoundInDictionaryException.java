@@ -7,8 +7,4 @@ public class NotFoundInDictionaryException extends Exception {
         super();
         this.nGram = nGram;
     }
-
-    public String getnGram() {
-        return nGram;
-    }
 }

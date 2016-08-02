@@ -5,11 +5,13 @@ import java.util.List;
 import org.apache.flink.api.java.DataSet;
 import org.apache.flink.api.java.ExecutionEnvironment;
 import org.apache.flink.api.java.tuple.Tuple4;
+import org.bdp.string_sim.types.IdLabelCompareTuple4;
+import org.bdp.string_sim.types.IdTokenizedLabelTuple6;
 import org.bdp.string_sim.types.ResultTuple5;
 
 import junit.framework.TestCase;
 
-public class StringCompareTrigramFlatMapTest extends TestCase {
+public class StringCompareNgramFlatMapTest extends TestCase {
     private ExecutionEnvironment environment;
 
     public void setUp() throws Exception {
@@ -26,7 +28,12 @@ public class StringCompareTrigramFlatMapTest extends TestCase {
                 new Tuple4<Integer, String, Integer, String>(4, "dresden", 4, "leipzig")
         );
 
-        List<ResultTuple5> list = dataSet.flatMap(new StringCompareTrigramFlatMap()).collect();
+        DataSet<IdTokenizedLabelTuple6> tokenizedTuple6 = dataSet
+                .map(new TokenizeMap(3));
+
+        List<ResultTuple5> list = tokenizedTuple6
+                .flatMap(new StringCompareNgramFlatMap())
+                .collect();
         
         assertTrue(list.size() == 5);
         
@@ -40,7 +47,9 @@ public class StringCompareTrigramFlatMapTest extends TestCase {
         	assertTrue((float)set.getField(4) >= 0.0 && (float)set.getField(4) <= 1.0);
         }
         
-        list = dataSet.flatMap(new StringCompareTrigramFlatMap(0.7,3)).collect();
+        list = tokenizedTuple6
+                .flatMap(new StringCompareNgramFlatMap(0.7))
+                .collect();
         
         assertTrue(list.size() == 2);
         

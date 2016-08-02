@@ -1,22 +1,18 @@
 package org.bdp.string_sim.process;
 
-import org.apache.flink.api.common.functions.MapFunction;
 import org.apache.flink.api.java.DataSet;
 import org.apache.flink.api.java.ExecutionEnvironment;
 import org.apache.flink.api.java.tuple.Tuple2;
-import org.apache.flink.api.java.tuple.Tuple3;
-import org.apache.flink.api.java.tuple.Tuple4;
+import org.apache.flink.api.java.utils.DataSetUtils;
 import org.apache.flink.api.java.utils.ParameterTool;
 import org.bdp.string_sim.DataModel;
 import org.bdp.string_sim.importer.Importer;
 import org.bdp.string_sim.transformation.*;
-import org.bdp.string_sim.types.IdTokenizedLabelTuple4;
+import org.bdp.string_sim.types.*;
 import org.bdp.string_sim.transformation.SortMergeFlatMap;
 import org.bdp.string_sim.transformation.StringCompareFlatMap;
-import org.bdp.string_sim.transformation.StringCompareTrigramFlatMap;
-import org.bdp.string_sim.types.ResultTuple5;
+import org.bdp.string_sim.transformation.StringCompareNgramFlatMap;
 import org.bdp.string_sim.utilities.FileNameHelper;
-import org.bdp.string_sim.utilities.FlinkDictionary;
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -148,9 +144,12 @@ public class CalculateSimilarityProcess {
     private void runStringCompareNgram()
     {
         System.out.println("Start similarity algorithm: stringCompareNgram.");
-        //do algo1 and output a csv file to outputDir
-        DataSet<ResultTuple5> algo2ResultDataSet = dataModel.getCrossedIdLabelDataSet()
-                .flatMap(new StringCompareTrigramFlatMap(threshold, tokenizeDigits));
+
+        DataSet<IdTokenizedLabelTuple6> tokenizedTuple6 = dataModel.getCrossedIdLabelDataSet()
+                .map(new TokenizeMap(this.tokenizeDigits));
+
+        DataSet<ResultTuple5> algo2ResultDataSet = tokenizedTuple6
+                .flatMap(new StringCompareNgramFlatMap(threshold));
 
         String outputFileName = FileNameHelper.getUniqueFilename(outputDir + "/stringCompareNgramResult.csv",".csv");
         algo2ResultDataSet.writeAsCsv("file:///" + outputFileName, "\n", ";");
@@ -179,63 +178,22 @@ public class CalculateSimilarityProcess {
     private void runFlinkSortMerge()
     {
         System.out.println("Start similarity algorithm: flinkSortMerge.");
-        //do SortMergeAlgo and output a csv file to outputDir
 
-        FlinkDictionary dictionary = new FlinkDictionary();
+        DataSet<IdTokenizedLabelTuple6> tokenizedTuple6 = dataModel.getCrossedIdLabelDataSet()
+                .map(new TokenizeMap(this.tokenizeDigits));
 
-        DataSet<IdTokenizedLabelTuple4> tokenizedLabelDataset = dataModel.getCrossedIdLabelDataSet()
-                .map(new TokenizeMap(tokenizeDigits));
+        DataSet<String> tokenDataSet = tokenizedTuple6
+                .flatMap(new CollectTokenFlatMap())
+                .distinct();
 
-        DataSet<String> nGramCollection = tokenizedLabelDataset
-                .flatMap(new CollectTokenFlatMap());
+        DataSet<Tuple2<Long, String>> flinkDictionary = DataSetUtils.zipWithUniqueId(tokenDataSet);
 
-        nGramCollection = nGramCollection.distinct();
+        DataSet<IdTranslatedTokenTuple6> translatedTokenTuple6DataSet = tokenizedTuple6
+                .map(new TranslateTokensMap())
+                .withBroadcastSet(flinkDictionary,"flinkDictionary");
 
-        dictionary.add(nGramCollection);
-
-        DataSet<Tuple2<Long, String>> dictionaryDataSet = dictionary.getDictionary();
-
-        DataSet<Tuple3<Integer,Integer,Float>> sortMergeResultIdDataSet = tokenizedLabelDataset
-                .flatMap(new FlinkSortMergeFlatMap(this.threshold))
-                .withBroadcastSet(dictionaryDataSet,"dictionary");
-
-        DataSet<Tuple2<Tuple3<Integer, Integer, Float>, IdTokenizedLabelTuple4>> joinedDataSet = sortMergeResultIdDataSet
-                .join(tokenizedLabelDataset)
-                .where(0)
-                .equalTo(0);
-
-        DataSet<ResultTuple5> sortMergeResultDataSet = joinedDataSet
-                .map(new MapFunction<Tuple2<Tuple3<Integer,Integer,Float>,IdTokenizedLabelTuple4>, Tuple4<Integer,String,Integer,Float>>() {
-            @Override
-            public Tuple4<Integer, String, Integer, Float> map(Tuple2<Tuple3<Integer, Integer, Float>, IdTokenizedLabelTuple4> input) throws Exception {
-                Tuple3<Integer, Integer, Float> tuple3 = input.getField(0);
-                IdTokenizedLabelTuple4 tuple4 = input.getField(1);
-                return new Tuple4<Integer, String, Integer, Float>(
-                        tuple3.getField(0),
-                        tuple4.getField(1),
-                        tuple3.getField(2),
-                        tuple3.getField(3));
-            }
-        })
-                .join(tokenizedLabelDataset)
-                .where(2)
-                .equalTo(2)
-                .map(new MapFunction<Tuple2<Tuple4<Integer,String,Integer,Float>,IdTokenizedLabelTuple4>, ResultTuple5>() {
-                    @Override
-                    public ResultTuple5 map(Tuple2<Tuple4<Integer, String, Integer, Float>, IdTokenizedLabelTuple4> input) throws Exception {
-                        Tuple4<Integer, String, Integer, Float> tuple4A = input.getField(0);
-                        IdTokenizedLabelTuple4 tuple4B = input.getField(1);
-
-                        return new ResultTuple5(
-                                tuple4A.getField(0),
-                                tuple4A.getField(1),
-                                tuple4A.getField(2),
-                                tuple4B.getField(3),
-                                tuple4A.getField(3)
-                        );
-                    }
-                });
-
+        DataSet<ResultTuple5> sortMergeResultDataSet = translatedTokenTuple6DataSet
+                .flatMap(new FlinkSortMergeFlatMap(this.threshold));
 
         String outputFileName = FileNameHelper.getUniqueFilename(outputDir + "/flinkSortMergeResult.csv",".csv");
         sortMergeResultDataSet.writeAsCsv("file:///" + outputFileName, "\n", ";");

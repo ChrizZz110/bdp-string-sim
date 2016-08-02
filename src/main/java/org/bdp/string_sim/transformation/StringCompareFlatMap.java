@@ -3,7 +3,6 @@ package org.bdp.string_sim.transformation;
 import org.apache.flink.api.common.functions.FlatMapFunction;
 import org.apache.flink.api.java.tuple.Tuple4;
 import org.apache.flink.util.Collector;
-import org.bdp.string_sim.types.IdLabelCompareTuple4;
 import org.bdp.string_sim.types.ResultTuple5;
 
 
