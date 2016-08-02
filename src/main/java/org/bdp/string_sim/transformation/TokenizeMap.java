@@ -22,9 +22,9 @@ public class TokenizeMap extends RichMapFunction<Tuple4<Integer,String,Integer,S
     }
 
     /**
-     * Tokenizes the labels inside the tuple 4: string -> string[]
+     * Tokenizes the both labels inside the tuple 4: string -> string[]
      * @param idLabelCompareTuple4 the input entity
-     * @return IdTokenizedLabelTuple4 with the tokenized labels
+     * @return IdTokenizedLabelTuple6 with the tokenized labels
      * @throws Exception
      */
     @Override

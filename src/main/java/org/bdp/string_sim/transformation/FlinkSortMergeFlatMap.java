@@ -26,6 +26,10 @@ public class FlinkSortMergeFlatMap implements FlatMapFunction<IdTranslatedTokenT
 
     /**
      * Calculates a similarity value using the sort merge algorithm.
+     *
+     * @param input see doc of IdTranslatedTokenTuple6
+     * @param collector ResultTuple5
+     * @throws Exception
      */
     @Override
     public void flatMap(IdTranslatedTokenTuple6 input, Collector<ResultTuple5> collector) throws Exception

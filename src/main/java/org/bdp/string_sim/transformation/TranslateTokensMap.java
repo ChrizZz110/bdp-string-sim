@@ -20,6 +20,13 @@ public class TranslateTokensMap extends RichMapFunction<IdTokenizedLabelTuple6,I
         dictionary.add(flinkDictionary);
     }
 
+    /**
+     * Exchanges the array of tokens with its corresponding array of long values using the dictionary
+     * From <Integer,String,String[],Integer,String,String[]> to <Integer,String,Long[],Integer,String,Long[]>
+     * @param input IdTokenizedLabelTuple6
+     * @return a IdTranslatedTokenTuple6
+     * @throws Exception
+     */
     @Override
     public IdTranslatedTokenTuple6 map(IdTokenizedLabelTuple6 input) throws Exception {
         return new IdTranslatedTokenTuple6(
