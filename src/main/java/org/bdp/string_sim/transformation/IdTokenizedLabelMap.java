@@ -23,7 +23,7 @@ public class IdTokenizedLabelMap extends RichMapFunction<Tuple2<Integer, String>
 
     @Override
     public void open(Configuration parameters) throws Exception {
-        tokenizer = new Tokenizer();
+        tokenizer = new Tokenizer(this.nGramDigits);
     }
 
     @Override
