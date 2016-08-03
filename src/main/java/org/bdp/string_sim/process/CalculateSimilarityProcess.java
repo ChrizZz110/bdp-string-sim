@@ -11,7 +11,6 @@ import org.bdp.string_sim.transformation.*;
 import org.bdp.string_sim.types.*;
 import org.bdp.string_sim.transformation.SortMergeFlatMap;
 import org.bdp.string_sim.transformation.StringCompareFlatMap;
-import org.bdp.string_sim.transformation.StringCompareNgramFlatMap;
 import org.bdp.string_sim.utilities.FileNameHelper;
 
 import java.io.File;
@@ -145,11 +144,24 @@ public class CalculateSimilarityProcess {
     {
         System.out.println("Start similarity algorithm: stringCompareNgram.");
 
-        DataSet<IdTokenizedLabelTuple6> tokenizedTuple6 = dataModel.getCrossedIdLabelDataSet()
-                .map(new TokenizeMap(this.tokenizeDigits));
+        DataSet<Tuple2<Integer,String>> idLabelTuple2A = dataModel.getCrossedIdLabelDataSet()
+                .distinct(0)
+                .project(0,1);
 
-        DataSet<ResultTuple5> algo2ResultDataSet = tokenizedTuple6
-                .flatMap(new StringCompareNgramFlatMap(threshold));
+        DataSet<Tuple2<Integer,String>> idLabelTuple2 = idLabelTuple2A
+                .union(
+                        dataModel.getCrossedIdLabelDataSet()
+                                .distinct(2)
+                                .project(2,3)
+                )
+                .distinct(0);
+
+        DataSet<IdTokenizedLabelTuple2> idTokenizedLabelDataSet = idLabelTuple2
+                .map(new IdTokenizedLabelMap(this.tokenizeDigits));
+
+        DataSet<ResultTuple5> algo2ResultDataSet = dataModel.getCrossedIdLabelDataSet()
+                .flatMap(new StringCompareNgramRichFlatMap(threshold))
+                .withBroadcastSet(idTokenizedLabelDataSet,"idTokenizedLabelCollection");
 
         String outputFileName = FileNameHelper.getUniqueFilename(outputDir + "/stringCompareNgramResult.csv",".csv");
         algo2ResultDataSet.writeAsCsv("file:///" + outputFileName, "\n", ";");
@@ -179,21 +191,34 @@ public class CalculateSimilarityProcess {
     {
         System.out.println("Start similarity algorithm: flinkSortMerge.");
 
-        DataSet<IdTokenizedLabelTuple6> tokenizedTuple6 = dataModel.getCrossedIdLabelDataSet()
-                .map(new TokenizeMap(this.tokenizeDigits));
+        DataSet<Tuple2<Integer,String>> idLabelTuple2A = dataModel.getCrossedIdLabelDataSet()
+                .distinct(0)
+                .project(0,1);
 
-        DataSet<String> tokenDataSet = tokenizedTuple6
-                .flatMap(new CollectTokenFlatMap())
+        DataSet<Tuple2<Integer,String>> idLabelTuple2 = idLabelTuple2A
+                .union(
+                        dataModel.getCrossedIdLabelDataSet()
+                                .distinct(2)
+                                .project(2,3)
+                )
+                .distinct(0);
+
+        DataSet<IdTokenizedLabelTuple2> idTokenizedLabelDataSet = idLabelTuple2
+                .map(new IdTokenizedLabelMap(this.tokenizeDigits));
+
+        DataSet<String> distinctTokenDataSet = idTokenizedLabelDataSet
+                .flatMap(new CollectTokenFromTuple2FlatMap())
                 .distinct();
 
-        DataSet<Tuple2<Long, String>> flinkDictionary = DataSetUtils.zipWithUniqueId(tokenDataSet);
+        DataSet<Tuple2<Long, String>> flinkDictionary = DataSetUtils.zipWithUniqueId(distinctTokenDataSet);
 
-        DataSet<IdTranslatedTokenTuple6> translatedTokenTuple6DataSet = tokenizedTuple6
-                .map(new TranslateTokensMap())
+        DataSet<Tuple2<Integer,Long[]>> idTranslatedTokenDataSet = idTokenizedLabelDataSet
+                .map(new TranslateTokensFromTuple2Map())
                 .withBroadcastSet(flinkDictionary,"flinkDictionary");
 
-        DataSet<ResultTuple5> sortMergeResultDataSet = translatedTokenTuple6DataSet
-                .flatMap(new FlinkSortMergeFlatMap(this.threshold));
+        DataSet<ResultTuple5> sortMergeResultDataSet = dataModel.getCrossedIdLabelDataSet()
+                .flatMap(new FlinkSortMergeRichFlatMap(this.threshold))
+                .withBroadcastSet(idTranslatedTokenDataSet,"translatedTokenDictionary");
 
         String outputFileName = FileNameHelper.getUniqueFilename(outputDir + "/flinkSortMergeResult.csv",".csv");
         sortMergeResultDataSet.writeAsCsv("file:///" + outputFileName, "\n", ";");
