@@ -183,16 +183,25 @@ public class FlinkSortMergeRichFlatMapTest extends TestCase {
         List<ResultTuple5> resultTuple5List = sortMergeResultDataSet.collect();
 
         // Only 2 of the 5 tuples have a similarity value above 0.5
-        assertEquals(2,resultTuple5List.size());
+        assertEquals(5,resultTuple5List.size());
 
         for (ResultTuple5 resultTuple5 : resultTuple5List)
         {
             switch ((int)resultTuple5.getField(0)){
+                case 2:
+                    assertEquals((float) 0.714285 ,(float) resultTuple5.getField(4),0.0001);
+                    break;
+                case 3:
+                    assertEquals((float) 0.714285 ,(float) resultTuple5.getField(4),0.0001);
+                    break;
                 case 4:
                     assertEquals((float) 1 ,(float) resultTuple5.getField(4),0.0001);
                     break;
+                case 5:
+                    assertEquals((float) 0.714285 ,(float) resultTuple5.getField(4),0.0001);
+                    break;
                 case 6:
-                    assertEquals((float) 2/3.0 ,(float) resultTuple5.getField(4),0.0001);
+                    assertEquals((float) 0.7692 ,(float) resultTuple5.getField(4),0.0001);
                     break;
                 default:
                     assertTrue(false);

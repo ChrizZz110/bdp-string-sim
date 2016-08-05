@@ -6,6 +6,7 @@ import org.apache.flink.api.java.tuple.Tuple4;
 import org.apache.flink.configuration.Configuration;
 import org.apache.flink.util.Collector;
 import org.bdp.string_sim.types.ResultTuple5;
+import org.bdp.string_sim.utilities.DiceMetric;
 
 import java.util.Collection;
 import java.util.TreeMap;
@@ -36,8 +37,8 @@ public class FlinkSortMergeRichFlatMap extends RichFlatMapFunction<Tuple4<Intege
     @Override
     public void flatMap(Tuple4<Integer, String, Integer, String> input, Collector<ResultTuple5> collector) throws Exception {
 
-        Long[] longArrayA = translatedTokenTreeMap1.get(input.getField(0));
-        Long[] longArrayB = translatedTokenTreeMap1.get(input.getField(2));
+        Long[] longArrayA = translatedTokenTreeMap1.get((int) input.getField(0));
+        Long[] longArrayB = translatedTokenTreeMap1.get((int) input.getField(2));
 
         int left = 0;
         int right = 0;
@@ -60,7 +61,7 @@ public class FlinkSortMergeRichFlatMap extends RichFlatMapFunction<Tuple4<Intege
             }
         }
 
-        diceSim = (float) 2 * overlap / (lengthA+lengthB);
+        diceSim = DiceMetric.calculate(lengthA, lengthB,overlap);
 
         if(diceSim >= threshold){
             collector.collect(new ResultTuple5(

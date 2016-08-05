@@ -37,17 +37,23 @@ public class SimmetricsFlatMap implements FlatMapFunction<Tuple4<Integer, String
         }
     }
 
+    /**
+     * Calculates string similarity of field 1 and 3 from the input tuple with the simmetrics framework.
+     * The following simmetrics parameters are used: BlockDistance algorithmus with qGramWithPadding tokenization
+     *
+     * @param input the input tuple 4
+     * @param collector to collect the output tuple 5
+     * @throws Exception
+     */
     @Override
     public void flatMap(Tuple4<Integer, String, Integer, String> input, Collector<ResultTuple5> collector) throws Exception {
-        String labelA = input.getField(1);
-        String labelB = input.getField(3);
 
         StringMetric metric = StringMetricBuilder
                 .with(new BlockDistance())
                 .tokenize(Tokenizers.qGramWithPadding(this.nGramDigits))
                 .build();
 
-        float diceSim = metric.compare(labelA,labelB);
+        float diceSim = metric.compare(input.getField(1), input.getField(3));
 
         if(diceSim >= this.threshold){
             collector.collect(new ResultTuple5(
