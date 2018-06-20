@@ -1,0 +1,15 @@
+org.gradoop.benchmark
+org.gradoop.benchmark.grouping
+org.gradoop.benchmark.patternmatching
+org.gradoop.examples
+org.gradoop.examples.biiig
+org.gradoop.examples.dimspan
+org.gradoop.examples.dimspan.data_source
+org.gradoop.examples.grouping
+org.gradoop.examples.io
+org.gradoop.examples.patternmatching
+org.gradoop.examples.sna
+org.gradoop.examples.utils
+org.gradoop.utils
+org.gradoop.utils.sampling
+org.gradoop.utils.statistics
